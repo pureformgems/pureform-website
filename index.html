@@ -108,11 +108,11 @@ nav.scrolled{background:var(--nav-bg2);box-shadow:0 1px 24px rgba(0,0,0,.05)}
 .sc{position:relative;overflow:hidden;background:var(--bg2);border:1px solid var(--brd);transition:transform .45s cubic-bezier(.25,.46,.45,.94),box-shadow .45s cubic-bezier(.25,.46,.45,.94),border-color .35s ease}
 .sc:hover{border-color:rgba(154,116,32,.2);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.1)}
 .sc-img{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--bg3)}
-.sc-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.25,.46,.45,.94),opacity .25s ease;opacity:0}
-.sc-img-main.loaded{opacity:1}
+.sc-img img,.sc-img video{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.25,.46,.45,.94),opacity .25s ease;opacity:0}
+.sc-img-main.loaded,.sc-vid{opacity:1}
 .sc-img-buffer{position:absolute;inset:0;z-index:1;pointer-events:none}
 .sc-img-buffer.show{opacity:1}
-.sc:hover .sc-img img{transform:scale(1.06)}
+.sc:hover .sc-img img,.sc:hover .sc-img video{transform:scale(1.06)}
 .sc-img::after{content:'';position:absolute;inset:0;background:var(--card-ov);transition:background .35s ease;pointer-events:none}
 .sc:hover .sc-img::after{background:var(--card-ov-h)}
 .sc-info{position:absolute;bottom:0;left:0;right:0;padding:20px;z-index:3;transition:background .35s ease,padding .35s ease;will-change:background}
@@ -360,7 +360,7 @@ const S=[
 {cat:'sapphire',v:'Sapphire',n:'Padparadscha',d:'Rarest sapphire — mesmerising salmon-pink, lotus blossom.',sp:['Corundum','Mohs 9'],clr:'#d87840',bg:'linear-gradient(135deg,#3a1808,#d87840,#f0a060)',img:'assets/collection/padparadscha-sapphire-light.jpg',wiki:'Padparadscha_sapphire'},
 {cat:'sapphire',v:'Sapphire',n:'Hot Pink',d:'Vivid, electric, unapologetically bold magenta-pink.',sp:['Corundum','Mohs 9'],clr:'#e03090',bg:'linear-gradient(135deg,#380820,#e03090,#ff60c0)',img:'assets/collection/hot-pink-sapphire-light.jpg',wiki:'Corundum'},
 {cat:'ruby',v:'Ruby',n:'Ruby',d:'The king of coloured stones. Chromium\'s unmistakable fire.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#c4304a',bg:'linear-gradient(135deg,#280508,#c4304a,#e86080)',img:'assets/collection/ruby-light.jpg',wiki:'Ruby'},
-{cat:'ruby',v:'Ruby',n:'Pigeon Blood',d:'Highest colour grade. Vivid crimson, blue fluorescence.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#b01838',bg:'linear-gradient(135deg,#200408,#b01838,#e03050)',img:'assets/collection/pigeons-blood-ruby-light.jpg',wiki:'Spinel'},
+{cat:'ruby',v:'Ruby',n:'Pigeon Blood',d:'Highest colour grade. Vivid crimson, blue fluorescence.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#b01838',bg:'linear-gradient(135deg,#200408,#b01838,#e03050)',img:'assets/collection/pigeons-blood-ruby-light.jpg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pegion-blood-vid.mp4',wiki:'Spinel'},
 {cat:'emerald',v:'Emerald',n:'Colombian Emerald',d:'No fracture filling — ever. Pure beryl, better executed.',sp:[],clr:'#2a7848',bg:'linear-gradient(135deg,#041808,#2a7848,#40b070)',img:'assets/collection/colombian-emerald-rectangular-light.jpg',wiki:'Emerald',shapes:[{id:'trillion',label:'Trillion',img:'assets/collection/colombian-emerald-light.jpg'},{id:'rect',label:'Rect',img:'assets/collection/colombian-emerald-rectangular-light.jpg'},{id:'oval',label:'Oval',img:'assets/collection/colombian-emerald-oval-light.jpg'}]},
 {cat:'tsavorite',v:'Tsavorite',n:'Green Garnet',d:'Vivid chrome-green, exceptional brilliance and fire.',sp:['Garnet','Mohs 7–7.5'],clr:'#30a840',bg:'linear-gradient(135deg,#041808,#30a840,#50d060)',img:'assets/collection/tsavorite-green-garnet-light.jpg',wiki:'Tsavorite'}
 ];
@@ -483,7 +483,9 @@ S.forEach((s,i)=>{
   const stoneInquiryName=getStoneInquiryName(s);
   const stoneInquiryHref=getStoneInquiryHref(stoneInquiryName);
   c.innerHTML=`<div class="sc-img" style="background:${s.bg}">
-    <img class="sc-img-main" ${imgAttrs} alt="${s.n}" loading="${i<3?'eager':'auto'}" decoding="async" fetchpriority="${i<3?'high':'low'}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+    ${s.video
+      ? `<video class="sc-vid" src="${s.video}" autoplay muted loop playsinline preload="metadata" aria-label="${s.n} video"></video>`
+      : `<img class="sc-img-main" ${imgAttrs} alt="${s.n}" loading="${i<3?'eager':'auto'}" decoding="async" fetchpriority="${i<3?'high':'low'}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`}
     <img class="sc-img-buffer" alt="" decoding="async" aria-hidden="true">
   </div>
   <div class="sc-info">
