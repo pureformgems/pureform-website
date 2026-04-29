@@ -109,7 +109,8 @@ nav.scrolled{background:var(--nav-bg2);box-shadow:0 1px 24px rgba(0,0,0,.05)}
 .sc:hover{border-color:rgba(154,116,32,.2);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.1)}
 .sc-img{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--bg3)}
 .sc-img img,.sc-img video{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.25,.46,.45,.94),opacity .25s ease;opacity:0}
-.sc-img-main.loaded,.sc-vid{opacity:1}
+.sc-img-main.loaded,.sc-vid{opacity:0}
+.sc-vid.ready{opacity:1}
 .sc-img-buffer{position:absolute;inset:0;z-index:1;pointer-events:none}
 .sc-img-buffer.show{opacity:1}
 .sc:hover .sc-img img,.sc:hover .sc-img video{transform:scale(1.06)}
@@ -484,7 +485,7 @@ S.forEach((s,i)=>{
   const stoneInquiryHref=getStoneInquiryHref(stoneInquiryName);
   c.innerHTML=`<div class="sc-img" style="background:${s.bg}">
     ${s.video
-      ? `<video class="sc-vid" src="${s.video}" autoplay muted loop playsinline preload="metadata" aria-label="${s.n} video"></video>`
+      ? `<video class="sc-vid" data-src="${s.video}" poster="${s.img||''}" autoplay muted loop playsinline preload="none" aria-label="${s.n} video"></video>`
       : `<img class="sc-img-main" ${imgAttrs} alt="${s.n}" loading="${i<3?'eager':'auto'}" decoding="async" fetchpriority="${i<3?'high':'low'}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`}
     <img class="sc-img-buffer" alt="" decoding="async" aria-hidden="true">
   </div>
@@ -503,8 +504,38 @@ S.forEach((s,i)=>{
   </div>`;
   sg.appendChild(c);
 });
+
+function initStoneVideos(){
+  const videos=[...document.querySelectorAll('.sc-vid[data-src]')];
+  const startVideo=video=>{
+    if(!video||video.dataset.loaded==='true') return;
+    video.dataset.loaded='true';
+    video.src=video.dataset.src;
+    video.load();
+    const markReady=()=>video.classList.add('ready');
+    video.addEventListener('loadeddata',markReady,{once:true});
+    video.addEventListener('canplay',markReady,{once:true});
+    const playPromise=video.play();
+    if(playPromise&&typeof playPromise.catch==='function') playPromise.catch(()=>{});
+  };
+  if(!('IntersectionObserver' in window)){
+    videos.forEach(startVideo);
+    return;
+  }
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        startVideo(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  },{rootMargin:'280px 0px',threshold:0.01});
+  videos.forEach(video=>observer.observe(video));
+}
+
 loadStoneImages();
 prefetchShapeVariants();
+initStoneVideos();
 requestAnimationFrame(markLoadedStoneImages);
 addEventListener('load',scheduleStoneImageWarmup,{once:true});
 
