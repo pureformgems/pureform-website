@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureForm — Not Mined. Mastered.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* ═══ LIGHT MODE (default) ═══ */
+:root{
+--bg:#faf7f2;--bg2:#f2ede3;--bg3:#e8e1d4;
+--gold:#8a6410;--gold2:#6a4800;--gold3:#4a3000;
+--gd:rgba(154,116,32,.1);
+--w:#1a1610;--g:#4e4840;--m:#b8b0a0;
+--nav-bg:rgba(250,247,242,.72);--nav-bg2:rgba(250,247,242,.96);
+--nav-border:rgba(26,22,16,.06);
+--card-ov:linear-gradient(0deg,rgba(250,247,242,.62) 0%,rgba(250,247,242,.1) 30%,rgba(250,247,242,0) 58%);
+--card-ov-h:linear-gradient(0deg,rgba(250,247,242,.44) 0%,rgba(250,247,242,.04) 26%,transparent 52%);
+--card-reveal:linear-gradient(0deg,rgba(250,247,242,.98),rgba(250,247,242,.9) 80%,transparent);
+--mo-bg:rgba(250,247,242,.9);
+--brd:rgba(154,116,32,.1);
+--serif:'Cormorant Garamond',Georgia,serif;
+--sans:'Jost','Helvetica Neue',sans-serif;
+transition:background .4s,color .4s;
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--w);font-family:var(--sans);font-weight:300;
+-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6;transition:background .4s,color .4s}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none;z-index:10000;opacity:.4}
+a{color:inherit;text-decoration:none}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:5000;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--nav-border);transition:all .4s}
+nav.scrolled{background:var(--nav-bg2);box-shadow:0 1px 24px rgba(0,0,0,.05)}
+.nlogo{font-family:var(--serif);font-weight:300;font-size:22px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+.nlinks{display:flex;gap:24px;align-items:center}
+.nlinks a{font-family:var(--sans);font-weight:300;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);transition:color .3s;position:relative}
+.nlinks a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold2);transition:width .3s}
+.nlinks a:hover{color:var(--w)}.nlinks a:hover::after{width:100%}
+.nlinks a.on{color:var(--gold2)}.nlinks a.on::after{width:100%}
+.ncta{font-family:var(--sans)!important;font-weight:400!important;font-size:10px!important;letter-spacing:.2em;text-transform:uppercase;color:var(--bg)!important;background:var(--gold2);padding:10px 20px;transition:all .3s}
+.ncta:hover{background:var(--gold)!important;color:var(--bg)!important}.ncta::after{display:none!important}
+
+
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.ham span{width:22px;height:1px;background:var(--gold2)}
+
+/* WhatsApp */
+.wa{position:fixed;bottom:28px;right:28px;z-index:6000;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,211,102,.35);transition:transform .3s;cursor:pointer}
+.wa:hover{transform:scale(1.1)}.wa svg{width:28px;height:28px;fill:white}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:120px 48px 60px;overflow:hidden}
+#pc{position:absolute;inset:0;z-index:0}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 45% at 50% 40%,var(--gd),transparent),radial-gradient(circle at 30% 60%,rgba(139,26,42,.015),transparent 50%);z-index:0}
+.hero-container{position:relative;z-index:1;max-width:1120px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:64px}
+.hero-content{flex:1;max-width:580px;text-align:left}
+.hero-visual{flex:1;display:flex;justify-content:flex-end;position:relative}
+.hero-visual-empty{width:380px;height:380px}
+.hero-ey{font-family:var(--sans);font-weight:200;font-size:11px;letter-spacing:.6em;text-transform:uppercase;color:var(--gold);opacity:0;margin-bottom:20px;animation:up 1s .4s ease forwards}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(48px,7.5vw,96px);letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);line-height:1;margin-bottom:16px;animation:up 1s .5s ease forwards;opacity:0}
+.hero-tag{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(20px,2.5vw,30px);color:var(--w);margin-bottom:16px;animation:up 1s .6s ease forwards;opacity:0}
+.hero-sub{font-family:var(--sans);font-weight:300;font-size:15px;color:var(--g);max-width:480px;margin:0 0 20px;line-height:1.75;animation:up 1s .7s ease forwards;opacity:0}
+.hero-pure{font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold2);margin-bottom:36px;animation:up 1s .8s ease forwards;opacity:0}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;justify-content:flex-start;animation:up 1s .9s ease forwards;opacity:0}
+.btn{font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:14px 36px;transition:all .4s;display:inline-block;cursor:pointer}
+.btn-p{background:var(--gold2);color:var(--bg);border:1px solid var(--gold2)}
+.btn-p:hover{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.btn-g{background:transparent;color:var(--gold2);border:1px solid var(--brd)}
+.btn-g:hover{border-color:var(--gold2);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px;animation:up 1s 1.1s ease forwards;opacity:0}
+.hero-scroll span{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--m)}
+.hsl{width:1px;height:32px;background:linear-gradient(transparent,var(--gold),transparent);animation:sp 2s ease-in-out infinite}
+@keyframes sp{0%,100%{opacity:.2}50%{opacity:.5}}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ TRUST ═══ */
+.trust{display:flex;justify-content:center;gap:48px;padding:36px 32px;background:var(--bg2);border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:10px}
+.ti svg{width:28px;height:28px;flex-shrink:0;opacity:.5;color:var(--gold2)}
+.ti svg *{stroke:var(--gold2);fill:none;stroke-width:1}
+.ti-t{font-family:var(--sans);font-weight:300;font-size:11px;color:var(--g)}
+.ti-t strong{color:var(--gold2);font-weight:400;display:block;font-size:13px}
+
+/* ═══ BORN ═══ */
+.born{padding:120px 32px;text-align:center;position:relative}
+.born::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,var(--gd),transparent 60%);pointer-events:none}
+.born h2{font-family:var(--serif);font-weight:400;font-size:clamp(24px,3.5vw,42px);color:var(--w);line-height:1.35;max-width:700px;margin:0 auto 24px}
+.born h2 em{font-style:italic;color:var(--gold2)}
+.born p{font-family:var(--sans);font-weight:300;font-size:15px;color:var(--g);max-width:580px;margin:0 auto;line-height:1.85}
+
+/* ═══ COLLECTION ═══ */
+.collection{padding:100px 32px}
+.shd{text-align:center;margin-bottom:48px}
+.ey{font-family:var(--sans);font-weight:200;font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.shd h2{font-family:var(--serif);font-weight:300;font-size:clamp(28px,3.8vw,44px);color:var(--w);letter-spacing:.02em;margin-bottom:12px}
+.shd p{font-family:var(--sans);font-weight:300;font-size:14px;color:var(--g);max-width:480px;margin:0 auto}
+.filters{display:flex;justify-content:center;gap:6px;margin-bottom:44px;flex-wrap:wrap}
+.fb{font-family:var(--sans);font-weight:300;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;border:1px solid var(--m);background:transparent;color:var(--g);cursor:pointer;transition:all .35s}
+.fb:hover{border-color:var(--gold);color:var(--w)}
+.fb.on{border-color:var(--gold2);color:var(--gold2);background:var(--gd)}
+
+/* Stone grid */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1120px;margin:0 auto}
+.sc{position:relative;overflow:hidden;background:var(--bg2);border:1px solid var(--brd);transition:transform .45s cubic-bezier(.25,.46,.45,.94),box-shadow .45s cubic-bezier(.25,.46,.45,.94),border-color .35s ease}
+.sc:hover{border-color:rgba(154,116,32,.2);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.1)}
+.sc-img{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--bg3)}
+.sc-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.25,.46,.45,.94),opacity .25s ease;opacity:0}
+.sc-img-main.loaded{opacity:1}
+.sc-img-buffer{position:absolute;inset:0;z-index:1;pointer-events:none}
+.sc-img-buffer.show{opacity:1}
+.sc:hover .sc-img img{transform:scale(1.06)}
+.sc-img::after{content:'';position:absolute;inset:0;background:var(--card-ov);transition:background .35s ease;pointer-events:none}
+.sc:hover .sc-img::after{background:var(--card-ov-h)}
+.sc-info{position:absolute;bottom:0;left:0;right:0;padding:20px;z-index:3;transition:background .35s ease,padding .35s ease;will-change:background}
+.sc:hover .sc-info{background:var(--card-reveal);padding-bottom:22px}
+.sc-over-v{font-family:var(--sans);font-weight:200;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.sc-over-n{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--w);line-height:1.2}
+.sc-reveal{max-height:0;opacity:0;overflow:hidden;transform:translateY(8px);transition:max-height .38s cubic-bezier(.25,.46,.45,.94),opacity .22s ease,transform .35s ease,margin-top .35s ease;pointer-events:none}
+.sc:hover .sc-reveal{max-height:180px;opacity:1;transform:translateY(0);margin-top:12px;pointer-events:auto}
+.sc-r-d{font-family:var(--sans);font-weight:300;font-size:12px;color:var(--g);line-height:1.6;margin-bottom:10px}
+.sc-r-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sc-r-sp{display:flex;gap:6px;flex-wrap:wrap;flex:1 1 0}
+.sp,.shape-btn{font-family:var(--sans);font-weight:300;font-size:9px;letter-spacing:.08em;padding:3px 8px;text-transform:uppercase}
+.sp{color:var(--g);border:1px solid var(--m)}
+.shape-btn{color:var(--g);border:1px solid var(--m);background:transparent;cursor:pointer;transition:border-color .25s ease,color .25s ease,background .25s ease}
+.shape-btn:hover{border-color:var(--gold2);color:var(--gold2);background:var(--gd)}
+.shape-btn.on{border-color:var(--gold2);color:var(--gold2);background:var(--gd)}
+.iq{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:400;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:4px 0 4px 10px;border:none;color:var(--gold2);background:transparent;cursor:pointer;transition:color .3s ease,transform .3s ease;margin-left:auto;white-space:nowrap}
+.iq:hover{color:var(--gold);transform:translateX(2px)}
+.iq svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .3s}
+.iq:hover svg{transform:translateX(3px)}
+
+/* ═══ PROCESS ═══ */
+.process{padding:100px 32px;background:linear-gradient(var(--bg),var(--bg2) 8%,var(--bg2) 92%,var(--bg))}
+.psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1060px;margin:0 auto;position:relative}
+.psteps::before{content:'';position:absolute;top:40px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold),transparent);opacity:.15}
+.ps{padding:48px 28px;text-align:center;transition:all .4s}
+.ps:hover{background:var(--gd)}
+.ps-n{font-family:var(--serif);font-weight:300;font-size:48px;color:var(--gold);opacity:.12;line-height:1;margin-bottom:16px}
+.ps-ic{width:44px;height:44px;margin:0 auto 18px;opacity:.4}
+.ps-ic svg{width:100%;height:100%}
+.ps-t{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--w);margin-bottom:8px}
+.ps-d{font-family:var(--sans);font-weight:300;font-size:12px;color:var(--g);line-height:1.7}
+
+/* ═══ WHO ═══ */
+.wif{padding:100px 32px}
+.wg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;max-width:1060px;margin:0 auto;background:var(--m)}
+.wc{background:var(--bg2);padding:44px 32px;transition:all .4s;position:relative;overflow:hidden}
+.wc:hover{background:var(--bg3)}
+.wc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity .4s}
+.wc:hover::before{opacity:1}
+.wc-l{font-family:var(--sans);font-weight:200;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.wc-n{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--w);margin-bottom:14px;line-height:1.2}
+.wc-d{font-family:var(--sans);font-weight:300;font-size:13px;color:var(--g);line-height:1.7;margin-bottom:20px}
+.wc-q{font-family:var(--serif);font-weight:400;font-style:italic;font-size:15px;color:var(--gold2);line-height:1.55;padding:14px 0 0;border-top:1px solid var(--brd)}
+
+/* ═══ ABOUT ═══ */
+.about{padding:100px 32px}
+.about-in{max-width:900px;margin:0 auto}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:64px}
+.ab h3{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--w);margin-bottom:10px}
+.ab p{font-family:var(--sans);font-weight:300;font-size:13px;color:var(--g);line-height:1.8}
+.bls{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--m)}
+.bl{background:var(--bg2);padding:28px 22px;transition:background .4s}
+.bl:hover{background:var(--bg3)}
+.bl-n{font-family:var(--serif);font-weight:300;font-size:28px;color:var(--gold);opacity:.18;line-height:1;margin-bottom:6px}
+.bl-t{font-family:var(--serif);font-weight:400;font-size:14px;color:var(--w);opacity:.82;line-height:1.6}
+
+/* ═══ CONTACT ═══ */
+.contact{padding:100px 32px;position:relative;background:radial-gradient(ellipse 40% 35% at 50% 40%,var(--gd),transparent)}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:72px;max-width:1000px;margin:0 auto;align-items:start}
+.ci h2{font-family:var(--serif);font-weight:300;font-size:clamp(28px,3.5vw,40px);color:var(--w);margin-bottom:12px}
+.ci .csub{font-family:var(--serif);font-weight:400;font-style:italic;font-size:16px;color:var(--gold2);margin-bottom:24px}
+.ci p{font-family:var(--sans);font-weight:300;font-size:14px;color:var(--g);line-height:1.8;margin-bottom:28px}
+.ch{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.ch-i{width:40px;height:40px;border-radius:50%;background:var(--gd);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ch-i svg{width:18px;height:18px;stroke:var(--gold2);fill:none;stroke-width:1.5}
+.ch-t{font-family:var(--sans);font-weight:300;font-size:13px;color:var(--g)}
+.ch-t strong{color:var(--w);font-weight:400;display:block}
+.fr{margin-bottom:14px}.fr2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.fr label{display:block;font-family:var(--sans);font-weight:300;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:6px}
+.fr input,.fr select,.fr textarea{width:100%;font-family:var(--sans);font-weight:300;font-size:13px;color:var(--w);background:var(--bg2);border:1px solid var(--m);padding:12px 14px;outline:none;transition:border .3s;-webkit-appearance:none}
+.fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--gold)}
+.fr select{cursor:pointer}.fr select option{background:var(--bg2);color:var(--w)}
+.fr textarea{min-height:80px;resize:vertical}
+.fsub{width:100%;font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:15px;border:none;background:var(--gold2);color:var(--bg);cursor:pointer;transition:all .35s;margin-top:4px}
+.fsub:hover{background:var(--gold)}
+.fsub:disabled{opacity:.72;cursor:wait}
+.fstat{margin-top:14px;font-family:var(--sans);font-weight:300;font-size:12px;line-height:1.6;color:var(--g)}
+.fstat.ok{color:var(--gold2)}
+.fstat.err{color:#a63b2d}
+.fstat a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.fstat a:hover{opacity:.8}
+
+/* ═══ FOOTER ═══ */
+footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
+.ft-t{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
+.ft-b{font-family:var(--serif);font-weight:300;font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px}
+.ft-tl{font-family:var(--serif);font-weight:400;font-style:italic;font-size:13px;color:var(--g);margin-bottom:12px}
+.ft-p{font-family:var(--sans);font-weight:300;font-size:10px;letter-spacing:.15em;color:var(--g);text-transform:uppercase}
+.ft-c h4{font-family:var(--sans);font-weight:400;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.ft-c a{display:block;font-family:var(--sans);font-weight:300;font-size:12px;color:var(--g);margin-bottom:9px;transition:color .3s}
+.ft-c a:hover{color:var(--gold2)}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--brd);flex-wrap:wrap;gap:12px}
+.ft-cp{font-family:var(--sans);font-weight:200;font-size:10px;color:var(--m);letter-spacing:.1em}
+.ft-so{display:flex;gap:12px}
+.ft-so a{width:30px;height:30px;border-radius:50%;border:1px solid var(--m);display:flex;align-items:center;justify-content:center;transition:border-color .3s}
+.ft-so a:hover{border-color:var(--gold2)}
+.ft-so a svg{width:13px;height:13px;stroke:var(--g);fill:none;stroke-width:1.5;transition:stroke .3s}
+.ft-so a:hover svg{stroke:var(--gold2)}
+
+/* ═══ MODAL ═══ */
+.mo{position:fixed;inset:0;background:var(--mo-bg);backdrop-filter:blur(14px);z-index:8000;display:none;align-items:center;justify-content:center;padding:24px}
+.mo.open{display:flex}
+.mob{background:var(--bg2);border:1px solid var(--brd);max-width:440px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto}
+.mx{position:absolute;top:12px;right:16px;font-size:22px;color:var(--g);cursor:pointer;background:none;border:none;font-family:var(--sans);font-weight:200;transition:color .3s}
+.mx:hover{color:var(--w)}
+.mob h3{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--w);margin-bottom:4px}
+.mos{font-family:var(--sans);font-weight:300;font-size:12px;color:var(--gold2);margin-bottom:20px}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.25,.46,.45,.94),transform .8s cubic-bezier(.25,.46,.45,.94)}
+.rv.vis{opacity:1;transform:translateY(0)}.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}.rv.d5{transition-delay:.5s}
+
+@media(max-width:1000px){.cg,.ft-t{grid-template-columns:1fr 1fr;gap:36px}}
+@media(max-width:900px){.sg{grid-template-columns:repeat(2,1fr)}.agrid{grid-template-columns:1fr;gap:28px}.bls,.wg{grid-template-columns:1fr}.psteps{grid-template-columns:repeat(2,1fr)}nav{padding:0 24px}.trust{gap:32px}.hero-container{flex-direction:column;text-align:center;gap:48px}.hero-content{max-width:100%;text-align:center}.hero-visual{justify-content:center}.hero-sub{margin:0 auto 20px}.hero-cta{justify-content:center}.hero-visual-empty{width:280px;height:280px}}
+@media(max-width:650px){.sg{grid-template-columns:1fr;max-width:400px}.nlinks{display:none;position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;align-items:center;gap:24px}.nlinks.open{display:flex}.nlinks a{font-size:14px}.ham{display:flex}.fr2{grid-template-columns:1fr}.ft-t{grid-template-columns:1fr}.cg{grid-template-columns:1fr}.hero-cta{flex-direction:column;gap:10px}.hero-cta a{width:100%;text-align:center}.psteps{grid-template-columns:1fr}.hero-visual-empty{width:220px;height:220px}}
+</style>
+</head>
+<body>
+<a href="https://wa.me/919079914601?text=Hi%21%20I%20would%20like%20to%20inquire%20about%20pureform%20gemstones%2C%20could%20you%20please%20share%20your%20latest%20product%20or%20catelog%20with%20me%3F" class="wa" target="_blank" title="Chat on WhatsApp">
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.678-6.34-1.845l-.452-.283-3.27 1.097 1.097-3.27-.283-.452A9.935 9.935 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg></a>
+
+<nav id="nb">
+  <a href="#home" class="nlogo">PureForm</a>
+  <div class="nlinks" id="nl">
+    <a href="#home" class="on">Home</a>
+    <a href="#collection">Collection</a>
+    <a href="#process">Process</a>
+    <a href="#whosfor">Who It's For</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="ncta">Request Quote</a>
+  </div>
+  <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="hero" id="home">
+<canvas id="pc"></canvas><div class="hero-bg"></div>
+<div class="hero-container">
+<div class="hero-content">
+<div class="hero-ey">Gemstones, Mastered</div>
+<h1>PureForm</h1>
+<div class="hero-tag">Not mined. Mastered.</div>
+<div class="hero-sub">Precision-grown gemstones — chemically, optically, gemologically identical. Certified by Antwerp. This is what luxury looks like when it has nothing to hide.</div>
+<div class="hero-pure">Pure Science · Pure Ethics · PureForm</div>
+<div class="hero-cta"><a href="#collection" class="btn btn-p">Explore Collection</a><a href="#contact" class="btn btn-g">Request a Quote</a></div>
+</div>
+<div class="hero-visual" aria-hidden="true"><div class="hero-visual-empty"></div></div>
+</div>
+<div class="hero-scroll"><div class="hsl"></div><span>Scroll</span></div>
+</section>
+
+<div class="trust rv">
+<div class="ti"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="12"/><path d="M9 14l3.5 3.5 6.5-6.5"/></svg><div class="ti-t"><strong>Certified by Antwerp</strong>Every stone</div></div>
+<div class="ti"><svg viewBox="0 0 28 28"><polygon points="14,2 17,11 27,11 19,17 22,26 14,20 6,26 9,17 1,11 11,11"/></svg><div class="ti-t"><strong>Zero Treatments</strong>No oil, resin, or filling</div></div>
+<div class="ti"><svg viewBox="0 0 28 28"><rect x="3" y="6" width="22" height="16" rx="2"/><path d="M3 11h22"/></svg><div class="ti-t"><strong>30–45 Day Credit</strong>For B2B partners</div></div>
+<div class="ti"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="10"/><path d="M14 8v6l4 2"/></svg><div class="ti-t"><strong>3–7 Day Delivery</strong>Across India</div></div>
+</div>
+
+<section class="born rv"><h2>Born from science. Built for those who <em>refuse to compromise.</em></h2><p>Every PureForm gemstone is molecularly identical to what the earth takes millions of years to create — grown in weeks, certified, conflict-free. This is what luxury looks like when it has nothing to hide.</p></section>
+
+<section class="collection" id="collection">
+<div class="shd"><div class="ey rv">The Collection</div><h2 class="rv d1">Your craft. Finally, the stone it deserves.</h2><p class="rv d2">Zero treatments. Zero compromise. Exceptional colour and clarity.</p></div>
+<div class="filters rv d3"><button class="fb on" data-f="all">All Stones</button><button class="fb" data-f="sapphire">Sapphire</button><button class="fb" data-f="ruby">Ruby</button><button class="fb" data-f="emerald">Emerald</button><button class="fb" data-f="tsavorite">Tsavorite</button></div>
+<div class="sg" id="sg"></div>
+</section>
+
+<section class="process" id="process">
+<div class="shd"><div class="ey rv">The Process</div><h2 class="rv d1">From lab to stone. Precision at every step.</h2></div>
+<div class="psteps rv d2">
+<div class="ps"><div class="ps-n">01</div><svg class="ps-ic" viewBox="0 0 48 48"><circle cx="24" cy="20" r="12" fill="none" stroke="var(--gold2)" stroke-width="1.2"/><path d="M16 36h16M20 36v6M28 36v6" fill="none" stroke="var(--gold2)" stroke-width="1.2"/></svg><div class="ps-t">Crystal Growth</div><div class="ps-d">HPHT or hydrothermal synthesis — same temperature, pressure, chemistry as the earth.</div></div>
+<div class="ps"><div class="ps-n">02</div><svg class="ps-ic" viewBox="0 0 48 48"><polygon points="24,4 40,18 36,38 12,38 8,18" fill="none" stroke="var(--gold2)" stroke-width="1.2"/><line x1="12" y1="18" x2="36" y2="18" stroke="var(--gold2)" stroke-width=".8"/></svg><div class="ps-t">Precision Cutting</div><div class="ps-d">Calibrated sizes for Kundan, Polki, and contemporary settings.</div></div>
+<div class="ps"><div class="ps-n">03</div><svg class="ps-ic" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="24" rx="2" fill="none" stroke="var(--gold2)" stroke-width="1.2"/><path d="M8 18h32" stroke="var(--gold2)" stroke-width=".8"/><circle cx="24" cy="28" r="4" fill="none" stroke="var(--gold2)" stroke-width="1"/></svg><div class="ps-t">Antwerp Certification</div><div class="ps-d">Every stone independently certified. Full provenance documented.</div></div>
+<div class="ps"><div class="ps-n">04</div><svg class="ps-ic" viewBox="0 0 48 48"><rect x="10" y="14" width="28" height="20" rx="3" fill="none" stroke="var(--gold2)" stroke-width="1.2"/><path d="M10 22h28" stroke="var(--gold2)" stroke-width=".8"/></svg><div class="ps-t">India Delivery</div><div class="ps-d">Local inventory. 3–7 days. 30–45 day credit. No compromise.</div></div>
+</div></section>
+
+<section class="wif" id="whosfor">
+<div class="shd"><div class="ey rv">Who It's For</div><h2 class="rv d1">Built for those who move first.</h2></div>
+<div class="wg rv d2">
+<div class="wc"><div class="wc-l">For Manufacturers</div><div class="wc-n">The Craftspeople</div><div class="wc-d">India's goldsmiths, stone setters, and exporters. Buy on quality, consistency, certification, margin.</div><div class="wc-q">The manufacturers who move early won't just get better stones. They'll get the market that's coming.</div></div>
+<div class="wc"><div class="wc-l">For Discerning Buyers</div><div class="wc-n">The Informed</div><div class="wc-d">Extraordinary jewelry that happens to be ethical — not ethical jewelry that happens to be beautiful.</div><div class="wc-q">An extraordinary stone — and a story you'll want to tell, not one you'll need to explain.</div></div>
+<div class="wc"><div class="wc-l">For Visionaries</div><div class="wc-n">The Designers</div><div class="wc-d">Materials that match the integrity of your design — as precise as your craft.</div><div class="wc-q">The gemstone that finally lives up to what jewelry can be.</div></div>
+</div></section>
+
+<section class="about" id="about">
+<div class="about-in"><div class="shd">
+<div class="ey rv">About PureForm</div>
+<h3 class="rv d1" style="font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(22px,3vw,36px);color:var(--gold2);margin-bottom:12px">Pure science. Pure ethics. PureForm.</h3>
+</div>
+<div class="agrid">
+<div class="ab rv"><h3>The Mastery</h3><p>HPHT and hydrothermal synthesis replicating exact geological conditions. Certified by Antwerp. The same stone. Grown with precision.</p></div>
+<div class="ab rv d1"><h3>The Standard</h3><p>Colour saturation comparable to finest historical benchmarks. Clarity approaching loupe-clean. Consistency natural supply cannot match.</p></div>
+<div class="ab rv d2"><h3>For Your Craft</h3><p>Local inventory. 3–7 day delivery across India. 30–45 day credit. Calibrated cuts for every setting style.</p></div>
+<div class="ab rv d3"><h3>Complete Honesty</h3><p>No treatments. No oil. No resin. No fracture filling. Every stone exactly what it claims to be.</p></div>
+</div>
+<div class="bls rv">
+<div class="bl"><div class="bl-n">01</div><div class="bl-t">A gemstone's value lives in what it <em>is</em> — not where it was found.</div></div>
+<div class="bl"><div class="bl-n">02</div><div class="bl-t">Precision is the highest form of craft.</div></div>
+<div class="bl"><div class="bl-n">03</div><div class="bl-t">Desire is honest. A stone that stops breathing deserves to exist.</div></div>
+<div class="bl"><div class="bl-n">04</div><div class="bl-t">A clean conscience and a stunning stone are the same stone.</div></div>
+<div class="bl"><div class="bl-n">05</div><div class="bl-t">Be unapologetically beautiful — let the beauty be the argument.</div></div>
+<div class="bl"><div class="bl-n">06</div><div class="bl-t">The future of fine jewelry is more honest. PureForm is that future.</div></div>
+</div></div></section>
+
+<section class="contact" id="contact">
+<div class="cg">
+<div class="ci rv"><h2>Let's Talk Stones.</h2><div class="csub">We respond within 24 hours.</div><p>Whether you need a single pigeon-blood ruby or bulk calibrated sapphires — tell us what your craft demands.</p>
+<div class="ch"><div class="ch-i"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.11 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div class="ch-t"><strong>+91 9079914601</strong>Call or WhatsApp</div></div>
+<div class="ch"><div class="ch-i"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="ch-t"><strong>preformgems@gmail.com</strong>Email us anytime</div></div>
+<div class="ch"><div class="ch-i"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="ch-t"><strong>Jaipur, Rajasthan</strong>India · Ships nationwide</div></div>
+</div>
+<div class="rv d2">
+<form id="contactForm" action="https://formspree.io/f/xjgjyklg" method="POST">
+<input type="hidden" name="_subject" value="PureForm Website Inquiry">
+<div class="fr2"><div class="fr"><label for="contact-name">Name</label><input id="contact-name" name="name" placeholder="Your name" required></div><div class="fr"><label for="contact-company">Company</label><input id="contact-company" name="company" placeholder="Business name"></div></div>
+<div class="fr2"><div class="fr"><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" placeholder="you@company.com" required></div><div class="fr"><label for="contact-phone">Phone / WhatsApp</label><input id="contact-phone" name="phone" type="tel" placeholder="+91"></div></div>
+<div class="fr"><label for="contact-stone">Stone Interest</label><select id="contact-stone" name="stone_interest"><option value="">Select a gemstone</option><option>Paraíba Blue Sapphire</option><option>Cornflower Blue Sapphire</option><option>Pink Sapphire</option><option>Padparadscha Sapphire</option><option>Hot Pink Sapphire</option><option>Ruby</option><option>Pigeon Blood Ruby</option><option>Colombian Emerald</option><option>Tsavorite Green Garnet</option><option>Multiple / Custom</option></select></div>
+<div class="fr"><label for="contact-requirements">Requirements</label><textarea id="contact-requirements" name="requirements" placeholder="Carat, cut, volume, timeline..." required></textarea></div>
+<button class="fsub" type="submit">Send Inquiry</button>
+<p class="fstat" id="contactStatus" aria-live="polite"></p>
+</form>
+</div></div></section>
+
+<footer>
+<div class="ft-t"><div><div class="ft-b">PureForm</div><div class="ft-tl">Not mined. Mastered.</div><div class="ft-p">Pure Science · Pure Ethics · PureForm</div></div>
+<div class="ft-c"><h4>Navigate</h4><a href="#home">Home</a><a href="#collection">Collection</a><a href="#process">Process</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+<div class="ft-c"><h4>Stones</h4><a href="#collection">Sapphire</a><a href="#collection">Ruby</a><a href="#collection">Emerald</a><a href="#collection">Tsavorite</a></div>
+<div class="ft-c"><h4>Contact</h4><a href="tel:+919079914601">+91 9079914601</a><a href="mailto:preformgems@gmail.com">preformgems@gmail.com</a><a href="#">Jaipur, Rajasthan</a><a href="https://wa.me/919079914601" target="_blank">WhatsApp Us</a></div></div>
+<div class="ft-bot"><div class="ft-cp">© 2025 PureForm. All rights reserved.</div>
+<div class="ft-so"><a href="https://www.instagram.com/pureformgems/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a><a href="#"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a></div>
+</div></footer>
+
+<div class="mo" id="modal"><div class="mob"><button class="mx" onclick="closeM()">×</button><h3>Inquire About</h3><div class="mos" id="moS">Stone</div>
+<div class="fr2"><div class="fr"><label>Name</label><input placeholder="Your name"></div><div class="fr"><label>Company</label><input placeholder="Business name"></div></div>
+<div class="fr"><label>Email</label><input type="email" placeholder="you@company.com"></div>
+<div class="fr"><label>Phone / WhatsApp</label><input type="tel" placeholder="+91"></div>
+<div class="fr"><label>Requirements</label><textarea placeholder="Carat, cut, quantity, timeline..."></textarea></div>
+<button class="fsub" onclick="closeM()">Send Inquiry</button></div></div>
+
+<script>
+// ═══ STONE DATA ═══
+const S=[
+{cat:'sapphire',v:'Sapphire',n:'Paraíba Blue',d:'Electric blue-green. Vivid neon saturation, unmistakable.',sp:['Corundum','Mohs 9'],clr:'#30a8b8',bg:'linear-gradient(135deg,#0a3038,#30a8b8,#50d0e0)',img:'assets/collection/paraiba-blue-sapphire-light.jpg',wiki:'Sapphire'},
+{cat:'sapphire',v:'Sapphire',n:'Cornflower Blue',d:'The Kashmir blue that Kashmir can no longer produce.',sp:['Corundum','Mohs 9'],clr:'#3060b0',bg:'linear-gradient(135deg,#0a1830,#3060b0,#5090e0)',img:'assets/collection/cornflower-blue-sapphire-light.jpg',wiki:'Kashmir_sapphire'},
+{cat:'sapphire',v:'Sapphire',n:'Pink Sapphire',d:'Soft, romantic, deeply saturated pink corundum.',sp:['Corundum','Mohs 9'],clr:'#c43480',bg:'linear-gradient(135deg,#381028,#c43480,#e860a8)',img:'assets/collection/pink-sapphire-light.jpg',wiki:'Pink_sapphire'},
+{cat:'sapphire',v:'Sapphire',n:'Padparadscha',d:'Rarest sapphire — mesmerising salmon-pink, lotus blossom.',sp:['Corundum','Mohs 9'],clr:'#d87840',bg:'linear-gradient(135deg,#3a1808,#d87840,#f0a060)',img:'assets/collection/padparadscha-sapphire-light.jpg',wiki:'Padparadscha_sapphire'},
+{cat:'sapphire',v:'Sapphire',n:'Hot Pink',d:'Vivid, electric, unapologetically bold magenta-pink.',sp:['Corundum','Mohs 9'],clr:'#e03090',bg:'linear-gradient(135deg,#380820,#e03090,#ff60c0)',img:'assets/collection/hot-pink-sapphire-light.jpg',wiki:'Corundum'},
+{cat:'ruby',v:'Ruby',n:'Ruby',d:'The king of coloured stones. Chromium\'s unmistakable fire.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#c4304a',bg:'linear-gradient(135deg,#280508,#c4304a,#e86080)',img:'assets/collection/ruby-light.jpg',wiki:'Ruby'},
+{cat:'ruby',v:'Ruby',n:'Pigeon Blood',d:'Highest colour grade. Vivid crimson, blue fluorescence.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#b01838',bg:'linear-gradient(135deg,#200408,#b01838,#e03050)',img:'assets/collection/pigeons-blood-ruby-light.jpg',wiki:'Spinel'},
+{cat:'emerald',v:'Emerald',n:'Colombian Emerald',d:'No fracture filling — ever. Pure beryl, better executed.',sp:[],clr:'#2a7848',bg:'linear-gradient(135deg,#041808,#2a7848,#40b070)',img:'assets/collection/colombian-emerald-rectangular-light.jpg',wiki:'Emerald',shapes:[{id:'trillion',label:'Trillion',img:'assets/collection/colombian-emerald-light.jpg'},{id:'rect',label:'Rect',img:'assets/collection/colombian-emerald-rectangular-light.jpg'},{id:'oval',label:'Oval',img:'assets/collection/colombian-emerald-oval-light.jpg'}]},
+{cat:'tsavorite',v:'Tsavorite',n:'Green Garnet',d:'Vivid chrome-green, exceptional brilliance and fire.',sp:['Garnet','Mohs 7–7.5'],clr:'#30a840',bg:'linear-gradient(135deg,#041808,#30a840,#50d060)',img:'assets/collection/tsavorite-green-garnet-light.jpg',wiki:'Tsavorite'}
+];
+
+// ═══ WIKI IMAGES ═══
+const wikiCache={};
+async function getWikiImg(title){
+  if(wikiCache[title]) return wikiCache[title];
+  try{
+    const r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+    const d=await r.json();
+    const url=d.thumbnail?.source||d.originalimage?.source||null;
+    return wikiCache[title]=url;
+  }catch{return null}
+}
+async function loadStoneImages(){
+  const imgs=document.querySelectorAll('.sc-img img[data-wiki]');
+  await Promise.allSettled([...imgs].map(async img=>{
+    const url=await getWikiImg(img.dataset.wiki);
+    if(url){
+      img.src=url;
+      img.onload=()=>img.classList.add('loaded');
+    }
+  }));
+}
+const stonePrefetchCache=new Set();
+const stoneReadyCache=new Map();
+function getActiveStoneSrc(img){
+  return img.getAttribute('src');
+}
+function ensureStoneSrcReady(src,priority='low'){
+  if(!src) return Promise.resolve(src);
+  if(stoneReadyCache.has(src)) return stoneReadyCache.get(src);
+  const ready=new Promise(resolve=>{
+    const prefetchImg=new Image();
+    prefetchImg.decoding='async';
+    if('fetchPriority' in prefetchImg) prefetchImg.fetchPriority=priority;
+    const done=async()=>{
+      try{if(prefetchImg.decode) await prefetchImg.decode()}catch{}
+      resolve(src);
+    };
+    prefetchImg.onload=done;
+    prefetchImg.onerror=()=>resolve(src);
+    prefetchImg.src=src;
+    if(prefetchImg.complete&&prefetchImg.naturalWidth) done();
+  });
+  stoneReadyCache.set(src,ready);
+  return ready;
+}
+function prefetchStoneSrc(src,priority='low'){
+  if(!src||stonePrefetchCache.has(src)) return;
+  stonePrefetchCache.add(src);
+  ensureStoneSrcReady(src,priority);
+}
+function markLoadedStoneImages(){
+  document.querySelectorAll('.sc-img-main').forEach(img=>{
+    if(img.complete&&img.naturalWidth) img.classList.add('loaded');
+  });
+}
+function warmStoneImages(){
+  document.querySelectorAll('.sc-img-main').forEach((img,i)=>prefetchStoneSrc(getActiveStoneSrc(img),i<3?'high':'low'));
+}
+function scheduleStoneImageWarmup(){
+  const run=()=>warmStoneImages();
+  if('requestIdleCallback' in window) requestIdleCallback(run,{timeout:1200});
+  else setTimeout(run,250);
+}
+function prefetchShapeVariants(){
+  document.querySelectorAll('[data-shape-src]').forEach(btn=>prefetchStoneSrc(btn.dataset.shapeSrc,'high'));
+}
+function sameStoneSrc(current,next){
+  try{return new URL(current,location.href).href===new URL(next,location.href).href}catch{return current===next}
+}
+async function switchStoneShape(btn,src,alt){
+  const card=btn.closest('.sc');
+  const main=card?.querySelector('.sc-img-main');
+  const buffer=card?.querySelector('.sc-img-buffer');
+  if(!main||!buffer||!src||sameStoneSrc(main.src,src)) return;
+  card.querySelectorAll('.shape-btn').forEach(x=>x.disabled=true);
+  await ensureStoneSrcReady(src,'high');
+  buffer.classList.remove('show');
+  buffer.onload=()=>buffer.classList.add('show');
+  buffer.src=src;
+  if(buffer.complete&&buffer.naturalWidth) buffer.classList.add('show');
+  setTimeout(()=>{
+    main.src=src;
+    main.alt=alt;
+    main.classList.add('loaded');
+    requestAnimationFrame(()=>{
+      buffer.classList.remove('show');
+      buffer.removeAttribute('src');
+      card.querySelectorAll('.shape-btn').forEach(x=>{x.classList.toggle('on',x===btn);x.disabled=false});
+    });
+  },180);
+}
+
+// ═══ STONE CARDS ═══
+function getStoneInquiryName(s){
+  const name=s.n?.trim()||'';
+  const variety=s.v?.trim()||'';
+  const lowerName=name.toLowerCase();
+  const lowerVariety=variety.toLowerCase();
+  if(!name) return variety;
+  if(!variety) return name;
+  if(lowerName===lowerVariety||lowerName.includes(lowerVariety)) return name;
+  if(lowerVariety.includes(lowerName)) return variety;
+  return /sapphire|ruby|emerald/i.test(variety)?`${name} ${variety}`:`${variety} ${name}`;
+}
+function getStoneInquiryHref(stoneName){
+  const msg=`Hi! I would like to inquire about the ${stoneName} gemstone. Could you please share more details and availability?`;
+  return `https://wa.me/919079914601?text=${encodeURIComponent(msg)}`;
+}
+const sg=document.getElementById('sg');
+S.forEach((s,i)=>{
+  const c=document.createElement('div');
+  c.className=`sc rv d${(i%3)+1}`;c.dataset.cat=s.cat;
+  const imgAttrs=s.img
+    ? `src="${s.img}"`
+    : `data-wiki="${s.wiki}"`;
+  const stoneInquiryName=getStoneInquiryName(s);
+  const stoneInquiryHref=getStoneInquiryHref(stoneInquiryName);
+  c.innerHTML=`<div class="sc-img" style="background:${s.bg}">
+    <img class="sc-img-main" ${imgAttrs} alt="${s.n}" loading="${i<3?'eager':'auto'}" decoding="async" fetchpriority="${i<3?'high':'low'}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+    <img class="sc-img-buffer" alt="" decoding="async" aria-hidden="true">
+  </div>
+  <div class="sc-info">
+    <div class="sc-over-v">${s.v}</div><div class="sc-over-n">${s.n}</div>
+    <div class="sc-reveal">
+      <div class="sc-r-d">${s.d}</div>
+      <div class="sc-r-meta">
+        <div class="sc-r-sp">${s.shapes
+          ? s.shapes.map(shape=>`<button class="shape-btn ${shape.id==='rect'?'on':''}" type="button" data-shape-src="${shape.img}" onclick="switchStoneShape(this,'${shape.img}','${s.n} ${shape.label}')">${shape.label}</button>`).join('')
+          : s.sp.map(x=>`<span class="sp">${x}</span>`).join('')}
+        </div>
+        <a class="iq" href="${stoneInquiryHref}" target="_blank" rel="noopener noreferrer">Inquire <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>`;
+  sg.appendChild(c);
+});
+loadStoneImages();
+prefetchShapeVariants();
+requestAnimationFrame(markLoadedStoneImages);
+addEventListener('load',scheduleStoneImageWarmup,{once:true});
+
+// ═══ PARTICLES ═══
+const cv=document.getElementById('pc'),cx=cv.getContext('2d');
+let W,H;
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight}rsz();
+addEventListener('resize',rsz);
+const pts=[];
+for(let i=0;i<45;i++)pts.push({x:Math.random()*2e3,y:Math.random()*1200,r:Math.random()*1+.2,dx:(Math.random()-.5)*.1,dy:(Math.random()-.5)*.07,o:Math.random()*.15+.02,c:['#b07818','#9a7420','#c4304a','#3060b0','#2a7848'][~~(Math.random()*5)]});
+!function d(){cx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.dx;p.y+=p.dy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=p.c;cx.globalAlpha=p.o;cx.fill();cx.beginPath();cx.arc(p.x,p.y,p.r*3,0,Math.PI*2);cx.globalAlpha=p.o*.08;cx.fill()});cx.globalAlpha=1;requestAnimationFrame(d)}();
+
+// ═══ SCROLL & NAV ═══
+const nb=document.getElementById('nb'),secs=document.querySelectorAll('section[id]'),nla=document.querySelectorAll('.nlinks a:not(.ncta)');
+addEventListener('scroll',()=>{nb.classList.toggle('scrolled',scrollY>50);let c='';secs.forEach(s=>{if(scrollY>=s.offsetTop-120)c=s.id});nla.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+c))});
+document.getElementById('ham').onclick=()=>document.getElementById('nl').classList.toggle('open');
+document.getElementById('nl').querySelectorAll('a').forEach(a=>a.onclick=()=>document.getElementById('nl').classList.remove('open'));
+
+// ═══ FILTERS ═══
+document.querySelectorAll('.fb').forEach(b=>{b.onclick=()=>{
+  document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const f=b.dataset.f;
+  document.querySelectorAll('.sc').forEach((c,i)=>{
+    if(f==='all'||c.dataset.cat===f){c.style.display='';c.style.opacity='0';c.style.transform='translateY(16px)';
+      setTimeout(()=>{c.style.transition='all .4s ease';c.style.opacity='1';c.style.transform='none'},30+i*50)}
+    else c.style.display='none'
+  })}
+});
+
+// ═══ MODAL ═══
+function openM(n){document.getElementById('moS').textContent=n;document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden'}
+function closeM(){document.getElementById('modal').classList.remove('open');document.body.style.overflow=''}
+document.getElementById('modal').onclick=e=>{if(e.target===e.currentTarget)closeM()};
+
+// ═══ CONTACT FORM ═══
+const contactForm=document.getElementById('contactForm');
+const contactStatus=document.getElementById('contactStatus');
+function buildContactWhatsAppHref(fd){
+  const lines=[
+    'Hi! I just submitted an inquiry on the PureForm website.',
+    '',
+    fd.get('stone_interest')?`Gemstone: ${fd.get('stone_interest')}`:null,
+    fd.get('requirements')?`Requirements: ${fd.get('requirements')}`:null,
+    fd.get('name')?`Name: ${fd.get('name')}`:null,
+    fd.get('company')?`Company: ${fd.get('company')}`:null,
+    fd.get('email')?`Email: ${fd.get('email')}`:null,
+    fd.get('phone')?`Phone / WhatsApp: ${fd.get('phone')}`:null,
+    '',
+    'Could you please share the latest product or catalog and next steps?'
+  ].filter(Boolean);
+  return `https://wa.me/919079914601?text=${encodeURIComponent(lines.join('\n'))}`;
+}
+if(contactForm&&contactStatus){
+  contactForm.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=contactForm.querySelector('.fsub');
+    const originalText=btn.textContent;
+    const formData=new FormData(contactForm);
+    const whatsappHref=buildContactWhatsAppHref(formData);
+    const waWindow=window.open('', '_blank');
+    if(waWindow){
+      try{waWindow.opener=null}catch{}
+      waWindow.document.write('<title>Opening WhatsApp…</title><body style="margin:0;display:grid;place-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#4e4840;background:#faf7f2">Opening WhatsApp…</body>');
+    }
+    btn.disabled=true;
+    btn.textContent='Sending...';
+    contactStatus.className='fstat';
+    contactStatus.textContent='';
+    try{
+      const res=await fetch(contactForm.action,{
+        method:'POST',
+        body:formData,
+        headers:{'Accept':'application/json'}
+      });
+      if(!res.ok) throw new Error('Submission failed');
+      if(waWindow) waWindow.location.href=whatsappHref;
+      contactForm.reset();
+      contactStatus.className='fstat ok';
+      contactStatus.innerHTML=`Thanks. Your inquiry has been sent — WhatsApp should open now. If it doesn’t, <a href="${whatsappHref}" target="_blank" rel="noopener noreferrer">click here to continue</a>.`;
+    }catch{
+      if(waWindow) waWindow.close();
+      contactStatus.className='fstat err';
+      contactStatus.textContent='Something went wrong while sending your inquiry. Please try again or contact us on WhatsApp.';
+    }finally{
+      btn.disabled=false;
+      btn.textContent=originalText;
+    }
+  });
+}
+
+// ═══ SCROLL REVEAL ═══
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.05,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
