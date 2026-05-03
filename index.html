@@ -8,7 +8,6 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-/* ═══ LIGHT MODE (default) ═══ */
 :root{
 --bg:#faf7f2;--bg2:#f2ede3;--bg3:#e8e1d4;
 --gold:#8a6410;--gold2:#6a4800;--gold3:#4a3000;
@@ -43,8 +42,6 @@ nav.scrolled{background:var(--nav-bg2);box-shadow:0 1px 24px rgba(0,0,0,.05)}
 .nlinks a.on{color:var(--gold2)}.nlinks a.on::after{width:100%}
 .ncta{font-family:var(--sans)!important;font-weight:400!important;font-size:10px!important;letter-spacing:.2em;text-transform:uppercase;color:var(--bg)!important;background:var(--gold2);padding:10px 20px;transition:all .3s}
 .ncta:hover{background:var(--gold)!important;color:var(--bg)!important}.ncta::after{display:none!important}
-
-
 .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
 .ham span{width:22px;height:1px;background:var(--gold2)}
 
@@ -105,11 +102,12 @@ nav.scrolled{background:var(--nav-bg2);box-shadow:0 1px 24px rgba(0,0,0,.05)}
 
 /* Stone grid */
 .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1120px;margin:0 auto}
-.sc{position:relative;overflow:hidden;background:var(--bg2);border:1px solid var(--brd);transition:transform .45s cubic-bezier(.25,.46,.45,.94),box-shadow .45s cubic-bezier(.25,.46,.45,.94),border-color .35s ease}
+.sc{position:relative;overflow:hidden;background:var(--bg2);border:1px solid var(--brd);cursor:pointer;transition:transform .45s cubic-bezier(.25,.46,.45,.94),box-shadow .45s cubic-bezier(.25,.46,.45,.94),border-color .35s ease}
 .sc:hover{border-color:rgba(154,116,32,.2);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.1)}
 .sc-img{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--bg3)}
 .sc-img img,.sc-img video{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.25,.46,.45,.94),opacity .25s ease;opacity:0}
-.sc-img-main.loaded,.sc-vid{opacity:0}
+.sc-img-main.loaded{opacity:1}
+.sc-vid{opacity:0}
 .sc-vid.ready{opacity:1}
 .sc-img-buffer{position:absolute;inset:0;z-index:1;pointer-events:none}
 .sc-img-buffer.show{opacity:1}
@@ -134,6 +132,10 @@ nav.scrolled{background:var(--nav-bg2);box-shadow:0 1px 24px rgba(0,0,0,.05)}
 .iq:hover{color:var(--gold);transform:translateX(2px)}
 .iq svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .3s}
 .iq:hover svg{transform:translateX(3px)}
+/* View Details link on cards */
+.sc-view{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-weight:300;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--m);opacity:0;transition:opacity .3s,color .3s;margin-right:auto}
+.sc:hover .sc-view{opacity:1}
+.sc-view svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:1.5}
 
 /* ═══ PROCESS ═══ */
 .process{padding:100px 32px;background:linear-gradient(var(--bg),var(--bg2) 8%,var(--bg2) 92%,var(--bg))}
@@ -226,12 +228,171 @@ footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.25,.46,.45,.94),transform .8s cubic-bezier(.25,.46,.45,.94)}
 .rv.vis{opacity:1;transform:translateY(0)}.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}.rv.d5{transition-delay:.5s}
 
+/* ═══════════════════════════════════════
+   PRODUCT PAGE
+═══════════════════════════════════════ */
+#pp{position:fixed;inset:0;z-index:7000;background:var(--bg);overflow-y:auto;overflow-x:hidden;display:none;opacity:0;transform:translateY(16px);transition:opacity .38s ease,transform .38s ease}
+#pp.open{display:block}
+#pp.vis{opacity:1;transform:none}
+
+/* PP Nav */
+.pp-nav{position:sticky;top:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:var(--nav-bg2);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--nav-border)}
+.pp-back{font-family:var(--sans);font-weight:300;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;transition:color .3s;padding:0}
+.pp-back:hover{color:var(--gold2)}
+.pp-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5}
+.pp-nav-logo{font-family:var(--serif);font-weight:300;font-size:20px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+.pp-nav-cta{font-family:var(--sans);font-weight:400;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);background:var(--gold2);padding:9px 18px;border:none;cursor:pointer;transition:background .3s;white-space:nowrap}
+.pp-nav-cta:hover{background:var(--gold)}
+
+/* PP Hero */
+.pp-hero{min-height:88vh;position:relative;display:flex;align-items:stretch;overflow:hidden}
+.pp-hero-bg{position:absolute;inset:0;opacity:.92}
+.pp-hero-over{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.38) 30%,rgba(0,0,0,.05) 56%,rgba(0,0,0,0) 100%)}
+.pp-hero-in{position:relative;z-index:2;width:100%;display:flex;align-items:stretch}
+.pp-hero-text{flex:0 0 340px;padding:80px 40px 96px 56px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.pp-hero-badge-top{display:inline-block;font-family:var(--sans);font-weight:300;font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px;padding:5px 10px;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+.pp-hero-name{font-family:var(--serif);font-weight:300;font-size:clamp(24px,2.8vw,40px);letter-spacing:.12em;text-transform:uppercase;color:#fff;line-height:1.15;margin-bottom:12px}
+.pp-hero-tag{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(13px,1.2vw,15px);color:rgba(255,255,255,.68);margin-bottom:0;line-height:1.6}
+.pp-hero-hls{display:none}
+.pp-hero-hl{font-family:var(--sans);font-weight:300;font-size:12px;color:rgba(255,255,255,.72);display:flex;align-items:center;gap:10px}
+.pp-hero-hl::before{content:'';width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.45);flex-shrink:0}
+/* Non-gallery stone img-wrap — also full-bleed */
+.pp-hero-img-wrap{flex:1;min-width:0;position:relative;overflow:hidden}
+.pp-hero-img-wrap img,.pp-hero-img-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;transition:opacity .25s ease}
+.pp-hero-cert{position:absolute;bottom:20px;left:20px;font-family:var(--sans);font-weight:300;font-size:9px;letter-spacing:.22em;text-transform:uppercase;padding:5px 10px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);color:rgba(255,255,255,.85);z-index:5}
+
+/* PP Body */
+.pp-body{max-width:1120px;margin:0 auto;padding:72px 48px 48px;display:grid;grid-template-columns:1fr 320px;gap:64px;align-items:start}
+.pp-section{margin-bottom:52px}
+.pp-section:last-child{margin-bottom:0}
+.pp-section-label{font-family:var(--sans);font-weight:200;font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--brd)}
+.pp-desc{font-family:var(--sans);font-weight:300;font-size:15px;color:var(--g);line-height:1.95}
+
+/* Highlights */
+.pp-hls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pp-hl{font-family:var(--sans);font-weight:300;font-size:12px;color:var(--w);display:flex;align-items:flex-start;gap:12px;padding:16px 18px;background:var(--bg2);border:1px solid var(--brd);line-height:1.5;transition:border-color .3s,background .3s}
+.pp-hl:hover{border-color:rgba(154,116,32,.2);background:var(--bg3)}
+.pp-hl-dot{width:6px;height:6px;border-radius:50%;border:1px solid var(--gold2);flex-shrink:0;margin-top:4px;position:relative}
+.pp-hl-dot::after{content:'';position:absolute;inset:2px;border-radius:50%;background:var(--gold2)}
+
+/* Properties */
+.pp-props{border:1px solid var(--brd);display:grid;grid-template-columns:1fr 1fr}
+.pp-prop{padding:18px 22px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd);transition:background .3s}
+.pp-prop:nth-child(even){border-right:none}
+.pp-prop:nth-last-child(-n+2){border-bottom:none}
+.pp-prop:hover{background:var(--bg2)}
+.pp-prop-l{font-family:var(--sans);font-weight:200;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--m);margin-bottom:6px}
+.pp-prop-v{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--w);line-height:1.2}
+
+/* Shapes in product page */
+.pp-shapes{display:flex;gap:14px;flex-wrap:wrap}
+.pp-shape-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.pp-shape-frame{width:90px;height:90px;overflow:hidden;border:1px solid var(--brd);background:var(--bg3);transition:border-color .3s,box-shadow .3s}
+.pp-shape-frame img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.pp-shape-item:hover .pp-shape-frame{border-color:rgba(154,116,32,.3)}
+.pp-shape-item:hover .pp-shape-frame img{transform:scale(1.06)}
+.pp-shape-item.on .pp-shape-frame{border-color:var(--gold2);box-shadow:0 0 0 1px var(--gold2)}
+.pp-shape-lbl{font-family:var(--sans);font-weight:300;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);transition:color .3s}
+.pp-shape-item.on .pp-shape-lbl{color:var(--gold2)}
+
+/* Sidebar */
+.pp-sidebar{position:sticky;top:80px}
+.pp-card{background:var(--bg2);border:1px solid var(--brd);padding:32px;margin-bottom:16px}
+.pp-card-variety{font-family:var(--sans);font-weight:200;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.pp-card-name{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--w);margin-bottom:10px;line-height:1.2}
+.pp-card-tag{font-family:var(--sans);font-weight:300;font-size:12px;color:var(--g);line-height:1.65;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--brd)}
+.pp-wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 20px;background:#25D366;color:#fff;font-family:var(--sans);font-weight:400;font-size:10px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:background .3s;margin-bottom:10px;border:none;cursor:pointer;width:100%}
+.pp-wa-btn:hover{background:#1da851;color:#fff}
+.pp-wa-btn svg{width:16px;height:16px;fill:#fff;flex-shrink:0}
+.pp-form-btn{display:block;text-align:center;padding:13px 20px;border:1px solid var(--brd);color:var(--gold2);font-family:var(--sans);font-weight:400;font-size:10px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer;background:transparent;width:100%}
+.pp-form-btn:hover{border-color:var(--gold2);background:var(--gd);color:var(--gold2)}
+.pp-trust-list{margin-top:22px;padding-top:20px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:10px}
+.pp-trust-item{font-family:var(--sans);font-weight:300;font-size:11px;color:var(--g);display:flex;align-items:center;gap:9px}
+.pp-trust-check{width:14px;height:14px;border-radius:50%;background:var(--gd);border:1px solid var(--gold2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pp-trust-check::after{content:'✓';font-size:7px;color:var(--gold2);line-height:1}
+
+/* Related stones */
+.pp-related{padding:64px 48px;max-width:1120px;margin:0 auto}
+.pp-rel-ey{font-family:var(--sans);font-weight:200;font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.pp-rel-hd{font-family:var(--serif);font-weight:300;font-size:clamp(22px,3vw,32px);color:var(--w);margin-bottom:36px;letter-spacing:.02em}
+.pp-rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pp-rel-card{overflow:hidden;background:var(--bg2);border:1px solid var(--brd);cursor:pointer;transition:transform .4s cubic-bezier(.25,.46,.45,.94),box-shadow .4s,border-color .3s}
+.pp-rel-card:hover{transform:translateY(-4px);border-color:rgba(154,116,32,.2);box-shadow:0 20px 56px rgba(0,0,0,.1)}
+.pp-rel-img{aspect-ratio:4/5;overflow:hidden;position:relative}
+.pp-rel-img-inner{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
+.pp-rel-card:hover .pp-rel-img-inner{transform:scale(1.06)}
+.pp-rel-info{padding:18px 20px 20px}
+.pp-rel-v{font-family:var(--sans);font-weight:200;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.pp-rel-n{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--w);line-height:1.2;margin-bottom:10px}
+.pp-rel-arrow{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-weight:300;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);transition:gap .3s}
+.pp-rel-card:hover .pp-rel-arrow{gap:9px}
+.pp-rel-arrow svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* PP separator */
+.pp-sep{height:1px;background:var(--brd);max-width:1120px;margin:0 auto 0;padding:0 48px}
+.pp-sep-inner{height:1px;background:var(--brd)}
+
+/* PP footer */
+.pp-footer{border-top:1px solid var(--brd);padding:32px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.pp-footer-brand{font-family:var(--serif);font-weight:300;font-size:18px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2)}
+.pp-footer-tagline{font-family:var(--serif);font-weight:400;font-style:italic;font-size:13px;color:var(--g)}
+.pp-footer-copy{font-family:var(--sans);font-weight:200;font-size:10px;color:var(--m);letter-spacing:.1em}
+
+/* ═══ PRODUCT PAGE GALLERY ═══ */
+.pp-gallery{flex:1;min-width:0;position:relative;overflow:hidden;min-height:88vh}
+.pp-gallery-main{position:absolute;top:0;left:0;right:0;bottom:0;background:#0d0d0d;transition:opacity .22s ease;cursor:zoom-in}
+.pp-gallery-main img,.pp-gallery-main video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.pp-gallery-zoom-hint{position:absolute;bottom:96px;right:16px;font-family:var(--sans);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7);background:rgba(0,0,0,.4);padding:5px 10px;backdrop-filter:blur(4px);opacity:0;transition:opacity .3s;pointer-events:none;border:1px solid rgba(255,255,255,.15)}
+.pp-gallery-main:hover .pp-gallery-zoom-hint{opacity:1}
+.pp-hero-divider{display:none}
+/* Glass thumbnail strip — overlaid at bottom of image */
+.pp-gallery-thumbs{position:absolute;bottom:20px;left:20px;display:flex;gap:8px;z-index:10;height:64px}
+.pp-gthumb{width:64px;height:64px;flex-shrink:0;overflow:hidden;border:1px solid rgba(255,255,255,.28);cursor:pointer;opacity:.52;transition:opacity .25s ease,border-color .25s ease,box-shadow .25s ease;background:rgba(0,0,0,.4);position:relative;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.pp-gthumb:hover{opacity:.85}
+.pp-gthumb.on{opacity:1;border-color:rgba(255,255,255,.8);box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+.pp-gthumb img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.pp-gthumb-vid-ic{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5)}
+.pp-gthumb-vid-ic svg{width:20px;height:20px;fill:rgba(255,255,255,.9)}
+.pp-gthumb-label{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-family:var(--sans);font-weight:300;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.8);background:linear-gradient(transparent 45%,rgba(0,0,0,.6));pointer-events:none}
+/* Lightbox overlay for gallery */
+.pp-lightbox{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.pp-lightbox.open{display:flex}
+.pp-lightbox img,.pp-lightbox video{max-width:90vw;max-height:88vh;object-fit:contain;display:block}
+.pp-lightbox-close{position:absolute;top:20px;right:24px;font-size:28px;color:rgba(255,255,255,.7);cursor:pointer;background:none;border:none;font-family:var(--sans);font-weight:200;line-height:1;transition:color .2s}
+.pp-lightbox-close:hover{color:#fff}
+
+/* PP Responsive */
+@media(max-width:900px){
+  .pp-nav{padding:0 24px}
+  .pp-hero{min-height:auto;display:flex;flex-direction:column}
+  .pp-hero-in{flex-direction:column;align-items:stretch}
+  .pp-hero-text{flex:none;padding:48px 24px 28px;max-width:100%}
+  .pp-hero-img-wrap{flex:none;height:320px;width:100%}
+  .pp-gallery{flex:none;height:340px;width:100%}
+  .pp-gallery-thumbs{height:56px;bottom:14px;left:14px}
+  .pp-gthumb{width:56px;height:56px}
+  .pp-body{grid-template-columns:1fr;padding:48px 24px 40px;gap:40px}
+  .pp-sidebar{position:static}
+  .pp-related{padding:48px 24px}
+  .pp-rel-grid{grid-template-columns:repeat(2,1fr)}
+  .pp-footer{padding:28px 24px}
+}
+@media(max-width:600px){
+  .pp-hls{grid-template-columns:1fr}
+  .pp-props{grid-template-columns:1fr}
+  .pp-prop{border-right:none}
+  .pp-prop:nth-last-child(-n+2){border-bottom:1px solid var(--brd)}
+  .pp-prop:last-child{border-bottom:none}
+  .pp-rel-grid{grid-template-columns:1fr;max-width:340px}
+}
+
 @media(max-width:1000px){.cg,.ft-t{grid-template-columns:1fr 1fr;gap:36px}}
 @media(max-width:900px){.sg{grid-template-columns:repeat(2,1fr)}.agrid{grid-template-columns:1fr;gap:28px}.bls,.wg{grid-template-columns:1fr}.psteps{grid-template-columns:repeat(2,1fr)}nav{padding:0 24px}.trust{gap:32px}.hero-container{flex-direction:column;text-align:center;gap:48px}.hero-content{max-width:100%;text-align:center}.hero-visual{justify-content:center}.hero-sub{margin:0 auto 20px}.hero-cta{justify-content:center}.hero-visual-empty{width:280px;height:280px}}
 @media(max-width:650px){.sg{grid-template-columns:1fr;max-width:400px}.nlinks{display:none;position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;align-items:center;gap:24px}.nlinks.open{display:flex}.nlinks a{font-size:14px}.ham{display:flex}.fr2{grid-template-columns:1fr}.ft-t{grid-template-columns:1fr}.cg{grid-template-columns:1fr}.hero-cta{flex-direction:column;gap:10px}.hero-cta a{width:100%;text-align:center}.psteps{grid-template-columns:1fr}.hero-visual-empty{width:220px;height:220px}}
 </style>
 </head>
 <body>
+
 <a href="https://wa.me/919079914601?text=Hi%21%20I%20would%20like%20to%20inquire%20about%20pureform%20gemstones%2C%20could%20you%20please%20share%20your%20latest%20product%20or%20catelog%20with%20me%3F" class="wa" target="_blank" title="Chat on WhatsApp">
 <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.678-6.34-1.845l-.452-.283-3.27 1.097 1.097-3.27-.283-.452A9.935 9.935 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg></a>
 
@@ -272,12 +433,14 @@ footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
 <div class="ti"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="10"/><path d="M14 8v6l4 2"/></svg><div class="ti-t"><strong>3–7 Day Delivery</strong>Across India</div></div>
 </div>
 
-<section class="born rv"><h2>Born from science. Built for those who <em>refuse to compromise.</em></h2><p>Every PureForm gemstone is molecularly identical to what the earth takes millions of years to create — grown in weeks, certified, conflict-free. This is what luxury looks like when it has nothing to hide.</p></section>
-
 <section class="collection" id="collection">
 <div class="shd"><div class="ey rv">The Collection</div><h2 class="rv d1">Your craft. Finally, the stone it deserves.</h2><p class="rv d2">Zero treatments. Zero compromise. Exceptional colour and clarity.</p></div>
-<div class="filters rv d3"><button class="fb on" data-f="all">All Stones</button><button class="fb" data-f="sapphire">Sapphire</button><button class="fb" data-f="ruby">Ruby</button><button class="fb" data-f="emerald">Emerald</button><button class="fb" data-f="tsavorite">Tsavorite</button></div>
+<div class="filters rv d3"><button class="fb on" data-f="all">All Stones</button><button class="fb" data-f="sapphire">Sapphire</button><button class="fb" data-f="ruby">Ruby</button><button class="fb" data-f="emerald">Emerald</button><button class="fb" data-f="garnet">Garnet</button><button class="fb" data-f="chrysoberyl">Chrysoberyl</button><button class="fb" data-f="tsavorite">Tsavorite</button></div>
 <div class="sg" id="sg"></div>
+<div id="sg-empty" style="display:none;text-align:center;padding:72px 32px;max-width:1120px;margin:0 auto">
+  <div style="font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(20px,2.5vw,28px);color:var(--g);margin-bottom:10px">Coming Soon</div>
+  <div style="font-family:var(--sans);font-weight:300;font-size:12px;color:var(--m);letter-spacing:.2em;text-transform:uppercase">This collection is being carefully prepared</div>
+</div>
 </section>
 
 <section class="process" id="process">
@@ -290,7 +453,7 @@ footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
 </div></section>
 
 <section class="wif" id="whosfor">
-<div class="shd"><div class="ey rv">Who It's For</div><h2 class="rv d1">Built for those who move first.</h2></div>
+<div class="shd"><div class="ey rv">Who It's For</div><h2 class="rv d1">Built for those who move first.</h2><p class="rv d2" style="font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(15px,1.8vw,19px);color:var(--gold2);max-width:620px;margin:16px auto 0;line-height:1.65">Born from science. Built for those who <em>refuse to compromise.</em></p></div>
 <div class="wg rv d2">
 <div class="wc"><div class="wc-l">For Manufacturers</div><div class="wc-n">The Craftspeople</div><div class="wc-d">India's goldsmiths, stone setters, and exporters. Buy on quality, consistency, certification, margin.</div><div class="wc-q">The manufacturers who move early won't just get better stones. They'll get the market that's coming.</div></div>
 <div class="wc"><div class="wc-l">For Discerning Buyers</div><div class="wc-n">The Informed</div><div class="wc-d">Extraordinary jewelry that happens to be ethical — not ethical jewelry that happens to be beautiful.</div><div class="wc-q">An extraordinary stone — and a story you'll want to tell, not one you'll need to explain.</div></div>
@@ -329,7 +492,7 @@ footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
 <input type="hidden" name="_subject" value="PureForm Website Inquiry">
 <div class="fr2"><div class="fr"><label for="contact-name">Name</label><input id="contact-name" name="name" placeholder="Your name" required></div><div class="fr"><label for="contact-company">Company</label><input id="contact-company" name="company" placeholder="Business name"></div></div>
 <div class="fr2"><div class="fr"><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" placeholder="you@company.com" required></div><div class="fr"><label for="contact-phone">Phone / WhatsApp</label><input id="contact-phone" name="phone" type="tel" placeholder="+91"></div></div>
-<div class="fr"><label for="contact-stone">Stone Interest</label><select id="contact-stone" name="stone_interest"><option value="">Select a gemstone</option><option>Paraíba Blue Sapphire</option><option>Cornflower Blue Sapphire</option><option>Pink Sapphire</option><option>Padparadscha Sapphire</option><option>Hot Pink Sapphire</option><option>Ruby</option><option>Pigeon Blood Ruby</option><option>Colombian Emerald</option><option>Tsavorite Green Garnet</option><option>Multiple / Custom</option></select></div>
+<div class="fr"><label for="contact-stone">Stone Interest</label><select id="contact-stone" name="stone_interest"><option value="">Select a gemstone</option><optgroup label="Sapphire"><option>Paraíba Blue Sapphire</option><option>Cornflower Blue Sapphire</option><option>Royal Blue Sapphire</option><option>Pink Sapphire</option><option>Padparadscha Sapphire</option><option>Hot Pink Sapphire</option><option>Yellow Sapphire (Pukhraj)</option></optgroup><optgroup label="Ruby"><option>Pigeon Blood Ruby</option></optgroup><optgroup label="Emerald"><option>Colombian Emerald</option></optgroup><optgroup label="Garnet"><option>YAG Paraíba Garnet</option></optgroup><optgroup label="Chrysoberyl"><option>Alexandrite</option></optgroup><option value="Multiple / Custom">Multiple / Custom</option></select></div>
 <div class="fr"><label for="contact-requirements">Requirements</label><textarea id="contact-requirements" name="requirements" placeholder="Carat, cut, volume, timeline..." required></textarea></div>
 <button class="fsub" type="submit">Send Inquiry</button>
 <p class="fstat" id="contactStatus" aria-live="polite"></p>
@@ -339,7 +502,7 @@ footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
 <footer>
 <div class="ft-t"><div><div class="ft-b">PureForm</div><div class="ft-tl">Not mined. Mastered.</div><div class="ft-p">Pure Science · Pure Ethics · PureForm</div></div>
 <div class="ft-c"><h4>Navigate</h4><a href="#home">Home</a><a href="#collection">Collection</a><a href="#process">Process</a><a href="#about">About</a><a href="#contact">Contact</a></div>
-<div class="ft-c"><h4>Stones</h4><a href="#collection">Sapphire</a><a href="#collection">Ruby</a><a href="#collection">Emerald</a><a href="#collection">Tsavorite</a></div>
+<div class="ft-c"><h4>Stones</h4><a href="#collection">Sapphire</a><a href="#collection">Ruby</a><a href="#collection">Emerald</a><a href="#collection">Garnet</a><a href="#collection">Chrysoberyl</a></div>
 <div class="ft-c"><h4>Contact</h4><a href="tel:+919079914601">+91 9079914601</a><a href="mailto:preformgems@gmail.com">preformgems@gmail.com</a><a href="#">Jaipur, Rajasthan</a><a href="https://wa.me/919079914601" target="_blank">WhatsApp Us</a></div></div>
 <div class="ft-bot"><div class="ft-cp">© 2025 PureForm. All rights reserved.</div>
 <div class="ft-so"><a href="https://www.instagram.com/pureformgems/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a><a href="#"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a></div>
@@ -352,19 +515,101 @@ footer{padding:56px 48px 36px;border-top:1px solid var(--brd)}
 <div class="fr"><label>Requirements</label><textarea placeholder="Carat, cut, quantity, timeline..."></textarea></div>
 <button class="fsub" onclick="closeM()">Send Inquiry</button></div></div>
 
+<!-- ═══ PRODUCT PAGE OVERLAY ═══ -->
+<div id="pp">
+  <div id="pp-inner"></div>
+</div>
+
+<!-- ═══ GALLERY LIGHTBOX ═══ -->
+<div class="pp-lightbox" id="ppLightbox" onclick="ppCloseLightbox()">
+  <button class="pp-lightbox-close" onclick="ppCloseLightbox()">×</button>
+  <div id="ppLightboxContent"></div>
+</div>
+
 <script>
-// ═══ STONE DATA ═══
+// ═══ STONE DATA (with slugs + extended info) ═══
 const S=[
-{cat:'sapphire',v:'Sapphire',n:'Paraíba Blue',d:'Electric blue-green. Vivid neon saturation, unmistakable.',sp:['Corundum','Mohs 9'],clr:'#30a8b8',bg:'linear-gradient(135deg,#0a3038,#30a8b8,#50d0e0)',img:'assets/collection/paraiba-blue-sapphire-light.jpg',wiki:'Sapphire'},
-{cat:'sapphire',v:'Sapphire',n:'Cornflower Blue',d:'The Kashmir blue that Kashmir can no longer produce.',sp:['Corundum','Mohs 9'],clr:'#3060b0',bg:'linear-gradient(135deg,#0a1830,#3060b0,#5090e0)',img:'assets/collection/cornflower-blue-sapphire-light.jpg',wiki:'Kashmir_sapphire'},
-{cat:'sapphire',v:'Sapphire',n:'Pink Sapphire',d:'Soft, romantic, deeply saturated pink corundum.',sp:['Corundum','Mohs 9'],clr:'#c43480',bg:'linear-gradient(135deg,#381028,#c43480,#e860a8)',img:'assets/collection/pink-sapphire-light.jpg',wiki:'Pink_sapphire'},
-{cat:'sapphire',v:'Sapphire',n:'Padparadscha',d:'Rarest sapphire — mesmerising salmon-pink, lotus blossom.',sp:['Corundum','Mohs 9'],clr:'#d87840',bg:'linear-gradient(135deg,#3a1808,#d87840,#f0a060)',img:'assets/collection/padparadscha-sapphire-light.jpg',wiki:'Padparadscha_sapphire'},
-{cat:'sapphire',v:'Sapphire',n:'Hot Pink',d:'Vivid, electric, unapologetically bold magenta-pink.',sp:['Corundum','Mohs 9'],clr:'#e03090',bg:'linear-gradient(135deg,#380820,#e03090,#ff60c0)',img:'assets/collection/hot-pink-sapphire-light.jpg',wiki:'Corundum'},
-{cat:'ruby',v:'Ruby',n:'Ruby',d:'The king of coloured stones. Chromium\'s unmistakable fire.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#c4304a',bg:'linear-gradient(135deg,#280508,#c4304a,#e86080)',img:'assets/collection/ruby-light.jpg',wiki:'Ruby'},
-{cat:'ruby',v:'Ruby',n:'Pigeon Blood',d:'Highest colour grade. Vivid crimson, blue fluorescence.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#b01838',bg:'linear-gradient(135deg,#200408,#b01838,#e03050)',img:'assets/collection/pigeons-blood-ruby-light.jpg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pegion-blood-vid.mp4',wiki:'Spinel'},
-{cat:'emerald',v:'Emerald',n:'Colombian Emerald',d:'No fracture filling — ever. Pure beryl, better executed.',sp:[],clr:'#2a7848',bg:'linear-gradient(135deg,#041808,#2a7848,#40b070)',img:'assets/collection/colombian-emerald-rectangular-light.jpg',wiki:'Emerald',shapes:[{id:'trillion',label:'Trillion',img:'assets/collection/colombian-emerald-light.jpg'},{id:'rect',label:'Rect',img:'assets/collection/colombian-emerald-rectangular-light.jpg'},{id:'oval',label:'Oval',img:'assets/collection/colombian-emerald-oval-light.jpg'}]},
-{cat:'tsavorite',v:'Tsavorite',n:'Green Garnet',d:'Vivid chrome-green, exceptional brilliance and fire.',sp:['Garnet','Mohs 7–7.5'],clr:'#30a840',bg:'linear-gradient(135deg,#041808,#30a840,#50d060)',img:'assets/collection/tsavorite-green-garnet-light.jpg',wiki:'Tsavorite'}
+{slug:'paraiba-blue',cat:'sapphire',v:'Sapphire',n:'Paraíba Blue',d:'Electric blue-green. Vivid neon saturation, unmistakable.',sp:['Corundum','Mohs 9'],clr:'#30a8b8',bg:'linear-gradient(135deg,#0a3038,#30a8b8,#50d0e0)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/BlueSapphire/IMG_3145.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/BlueSapphire/IMG_3123.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/BlueSapphire/IMG_3145.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/BlueSapphire/IMG_3143.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/BlueSapphire/IMG_3123.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/BlueSapphire/IMG_3280.jpeg',label:'Certificate'}]},
+{slug:'cornflower-blue',cat:'sapphire',v:'Sapphire',n:'Cornflower Blue',d:'The Kashmir blue that Kashmir can no longer produce.',sp:['Corundum','Mohs 9'],clr:'#3060b0',bg:'linear-gradient(135deg,#0a1830,#3060b0,#5090e0)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/CornFlowerSapphire/IMG_2837.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/CornFlowerSapphire/IMG_2831.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/CornFlowerSapphire/IMG_2837.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/CornFlowerSapphire/IMG_2835.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/CornFlowerSapphire/IMG_2831.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/CornFlowerSapphire/IMG_3295.jpeg',label:'Certificate'}]},
+{slug:'pink-sapphire',cat:'sapphire',v:'Sapphire',n:'Pink Sapphire',d:'Soft, romantic, deeply saturated pink corundum.',sp:['Corundum','Mohs 9'],clr:'#c43480',bg:'linear-gradient(135deg,#381028,#c43480,#e860a8)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PinkSapphire/IMG_3088.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PinkSapphire/IMG_3093.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PinkSapphire/IMG_3088.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PinkSapphire/IMG_3091.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PinkSapphire/IMG_3093.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PinkSapphire/IMG_3283.jpeg',label:'Certificate'}]},
+{slug:'padparadscha',cat:'sapphire',v:'Sapphire',n:'Padparadscha',d:'Rarest sapphire — mesmerising salmon-pink, lotus blossom.',sp:['Corundum','Mohs 9'],clr:'#d87840',bg:'linear-gradient(135deg,#3a1808,#d87840,#f0a060)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PadparaschaSapphire/IMG_3127.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PadparaschaSapphire/IMG_3131.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PadparaschaSapphire/IMG_3127.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PadparaschaSapphire/IMG_3125.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PadparaschaSapphire/IMG_3131.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/PadparaschaSapphire/IMG_3281.jpeg',label:'Certificate'}]},
+{slug:'hot-pink',cat:'sapphire',v:'Sapphire',n:'Hot Pink',d:'Vivid, electric, unapologetically bold magenta-pink.',sp:['Corundum','Mohs 9'],clr:'#e03090',bg:'linear-gradient(135deg,#380820,#e03090,#ff60c0)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/HotPinkSapphire/IMG_3141.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/HotPinkSapphire/IMG_3142.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/HotPinkSapphire/IMG_3141.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/HotPinkSapphire/IMG_3138.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/HotPinkSapphire/IMG_3142.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/HotPinkSapphire/IMG_3296.jpeg',label:'Certificate'}]},
+{slug:'royal-blue',cat:'sapphire',v:'Sapphire',n:'Royal Blue',d:"Deep, velvety royal blue — the signature of Ceylon's finest.",sp:['Corundum','Mohs 9'],clr:'#1a3880',bg:'linear-gradient(135deg,#050c20,#1a3880,#3060c0)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/royalBlueSapphire/IMG_2800.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/royalBlueSapphire/IMG_2796.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/royalBlueSapphire/IMG_2800.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/royalBlueSapphire/IMG_2794.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/royalBlueSapphire/IMG_2796.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/royalBlueSapphire/IMG_3290.jpeg',label:'Certificate'}]},
+{slug:'yellow-sapphire',cat:'sapphire',v:'Sapphire',n:'Yellow Sapphire',d:'Pure golden brilliance — Pukhraj, grown with precision.',sp:['Corundum','Mohs 9'],clr:'#c89420',bg:'linear-gradient(135deg,#201808,#c89420,#f0c840)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/yellowSapphire/IMG_2808.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/yellowSapphire/IMG_2822.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/yellowSapphire/IMG_2808.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/yellowSapphire/IMG_3292.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/yellowSapphire/IMG_2822.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/yellowSapphire/IMG_3293.jpeg',label:'Certificate'}]},
+{slug:'pigeon-blood',cat:'ruby',v:'Ruby',n:'Pigeon Blood',d:'Highest colour grade. Vivid crimson, blue fluorescence.',sp:['Al₂O₃+Cr','Mohs 9'],clr:'#b01838',bg:'linear-gradient(135deg,#200408,#b01838,#e03050)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pigeonBloodRuby/IMG_2768.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pigeonBloodRuby/video-output-6D7FCD1D-4B56-42B8-9405-DA156708E75F-1.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pigeonBloodRuby/IMG_2768.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pigeonBloodRuby/IMG_2764.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pigeonBloodRuby/video-output-6D7FCD1D-4B56-42B8-9405-DA156708E75F-1.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/pigeonBloodRuby/IMG_3279.jpeg',label:'Certificate'}]},
+{slug:'colombian-emerald',cat:'emerald',v:'Emerald',n:'Colombian Emerald',d:'No fracture filling — ever. Pure beryl, better executed.',sp:[],clr:'#2a7848',bg:'linear-gradient(135deg,#041808,#2a7848,#40b070)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/Emerald/IMG_2782.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/Emerald/video-output-8D60F8EF-9F21-4CE9-A279-FC537C9D0485-1.mov',wiki:'Emerald',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/Emerald/IMG_2782.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/Emerald/IMG_2780.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/Emerald/video-output-8D60F8EF-9F21-4CE9-A279-FC537C9D0485-1.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/Emerald/IMG_3278.jpeg',label:'Certificate'}]},
+{slug:'paraiba-garnet',cat:'garnet',v:'Garnet',n:'YAG Paraíba',d:'Copper-teal brilliance. The rarest garnet colour, mastered.',sp:['YAG','Mohs 8–8.5'],clr:'#20a8b0',bg:'linear-gradient(135deg,#0a2830,#20a8b0,#40d0c0)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/YAGparaibaGarnet/IMG_3100.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/YAGparaibaGarnet/IMG_3107.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/YAGparaibaGarnet/IMG_3100.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/YAGparaibaGarnet/IMG_3097.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/YAGparaibaGarnet/IMG_3107.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/YAGparaibaGarnet/IMG_3285.jpeg',label:'Certificate'}]},
+{slug:'alexandrite',cat:'chrysoberyl',v:'Chrysoberyl',n:'Alexandrite',d:'Green in daylight. Red by candlelight. The colour-change miracle.',sp:['BeAl₂O₄+Cr','Mohs 8.5'],clr:'#2a7040',bg:'linear-gradient(135deg,#081808,#2a7040,#6a2040)',img:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/AlexanderiteChrysoberyl/IMG_3135.jpeg',video:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/AlexanderiteChrysoberyl/IMG_3132.mov',media:[{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/AlexanderiteChrysoberyl/IMG_3135.jpeg',label:'Front'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/AlexanderiteChrysoberyl/IMG_3133.jpeg',label:'Back'},{type:'video',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/AlexanderiteChrysoberyl/IMG_3132.mov',label:'Video'},{type:'img',src:'https://wumlxrnvrxfbhvukxeeh.supabase.co/storage/v1/object/public/pureform-assets/AlexanderiteChrysoberyl/IMG_3287.jpeg',label:'Certificate'}]}
 ];
+
+// ═══ EXTENDED STONE DATA ═══
+const EXT={
+'paraiba-blue':{
+  fullDesc:'Electric blue-green corundum with neon saturation unlike any other sapphire variety. Paraíba-type sapphires owe their extraordinary teal to trace copper within the aluminium oxide lattice — a chemical signature our laboratory faithfully replicates, atom for atom. Certified by Antwerp to the finest colour standards. Zero heat treatment, ever. Optically, chemically, and gemologically identical to the rarest specimens the earth has yielded.',
+  highlights:['Copper-driven neon teal saturation','Zero heat treatment','Antwerp Certified every stone','Consistent colour lot to lot'],
+  composition:'Al₂O₃ + Cu',hardness:'Mohs 9',growth:'HPHT / Hydrothermal',colorGrade:'Vivid Teal-Blue',clarity:'Eye-clean',treatments:'None'
+},
+'cornflower-blue':{
+  fullDesc:'The legendary Kashmir colour that Kashmir can no longer supply. Cornflower Blue is the benchmark hue of the fine sapphire world — a soft, velvety, deeply saturated blue with a subtle violet shift that no other origin replicates. Our laboratory-grown stones achieve this colour without heat treatment, surpassing the consistency of even the finest natural Kashmir material in saturation and clarity, lot after lot.',
+  highlights:['Kashmir-grade velvety saturation','No heat treatment ever','Consistent lot-to-lot colour','Antwerp Certified'],
+  composition:'Al₂O₃ + Fe/Ti',hardness:'Mohs 9',growth:'HPHT / Hydrothermal',colorGrade:'Cornflower / Kashmir Blue',clarity:'Eye-clean to Loupe-clean',treatments:'None'
+},
+'pink-sapphire':{
+  fullDesc:'Soft, romantic, and deeply saturated pink corundum. From the palest blush to rich magenta, pink sapphires have become one of the most coveted stones in contemporary fine jewelry. Chromium drives the colour; our laboratory achieves it without heat treatment or beryllium diffusion. Consistent saturation across every stone and every lot — something natural supply cannot promise at any price.',
+  highlights:['Chromium-driven pink colour','Blush to deep magenta range','No heat treatment','Calibrated for Kundan & Polki settings'],
+  composition:'Al₂O₃ + Cr',hardness:'Mohs 9',growth:'HPHT / Hydrothermal',colorGrade:'Vivid Pink',clarity:'Eye-clean',treatments:'None'
+},
+'padparadscha':{
+  fullDesc:"The rarest of all sapphires — a mesmerising salmon-pink that evokes the Sri Lankan lotus blossom after which it is named. Padparadscha occupies a unique colour space between orange and pink that no other gemstone can claim. It has captivated collectors and royalty for centuries. Our laboratory-grown Padparadscha replicates this extraordinary hue with the same chromium-iron chemical signature, certified to the exacting colour standard the stone demands.",
+  highlights:['Lotus-blossom salmon-pink hue','Chromium-iron colour origin','Rarest colour in all sapphire','Antwerp Certified to colour grade'],
+  composition:'Al₂O₃ + Cr + Fe',hardness:'Mohs 9',growth:'Hydrothermal',colorGrade:'Padparadscha Salmon-Pink',clarity:'Eye-clean',treatments:'None'
+},
+'hot-pink':{
+  fullDesc:'Vivid, electric, unapologetically bold. This magenta-pink corundum is the statement stone for designers who want intensity without compromise. Deep chromium saturation gives it a brilliance that commands attention from across a room. Zero heat treatment — the colour you see is the colour the crystal grew, not a colour the furnace imposed. For jewellery that refuses to go unnoticed.',
+  highlights:['Maximum chromium saturation','Electric magenta-pink hue','No heat or beryllium treatment','Zero treatments ever'],
+  composition:'Al₂O₃ + Cr (high)',hardness:'Mohs 9',growth:'HPHT',colorGrade:'Vivid Magenta-Pink',clarity:'Eye-clean',treatments:'None'
+},
+'ruby':{
+  fullDesc:"The king of coloured stones. Chromium transforms aluminium oxide into the red that has commanded the world's most significant gemstone auctions for centuries. Our laboratory-grown rubies achieve the same vivid red — the same chromium signature, the same refractive index, the same Mohs 9 hardness. Certified by Antwerp. Zero heat treatment. No beryllium diffusion. No lead-glass filling — ever.",
+  highlights:['Chromium-driven vivid red','No heat treatment or glass filling','Antwerp Certified every stone','Full chemical identity to natural ruby'],
+  composition:'Al₂O₃ + Cr',hardness:'Mohs 9',growth:'HPHT / Flame Fusion',colorGrade:'Vivid Red',clarity:'Eye-clean',treatments:'None'
+},
+'pigeon-blood':{
+  fullDesc:'The highest colour grade in ruby — a designation, not merely a description. Pigeon Blood denotes a specific hue of vivid crimson with the characteristic blue fluorescence that causes the stone to appear to glow from within under UV. Certified by Antwerp to this precise colour standard. Our laboratory-grown Pigeon Blood rubies achieve this designation consistently, lot after lot — something no natural source at any price can promise.',
+  highlights:['Certified Pigeon Blood colour grade','Blue fluorescence UV glow effect','Highest ruby colour standard globally','Consistent certification lot to lot'],
+  composition:'Al₂O₃ + Cr (max)',hardness:'Mohs 9',growth:'HPHT',colorGrade:'Pigeon Blood Vivid Red',clarity:'Eye-clean',treatments:'None'
+},
+'colombian-emerald':{
+  fullDesc:'No fracture filling — ever. The natural emerald industry is defined by jardin: inclusions concealed with oils, resins, and fillers that degrade over time and misrepresent the stone. Our Colombian-type emeralds are pure beryl grown with the same chromium-vanadium colour drivers as the finest Muzo material — without the jardin-disguising treatments that make natural emeralds impossible to trust. Available in three precision cuts: Trillion, Rectangular, and Oval.',
+  highlights:['Zero oil or resin treatment ever','Chromium-vanadium Colombian-type green','Three precision cuts available','Clarity natural emeralds cannot match'],
+  composition:'Be₃Al₂Si₆O₁₈ + Cr + V',hardness:'Mohs 7.5–8',growth:'Hydrothermal',colorGrade:'Colombian Green',clarity:'Eye-clean (no jardin)',treatments:'None'
+},
+'green-garnet':{
+  fullDesc:'Vivid chrome-green with exceptional brilliance and fire. Tsavorite is widely regarded as the most beautiful green gemstone — its chrome-vanadium colour rivals the finest emerald, delivered at significantly greater brilliance and refractive index. Our laboratory-grown stones achieve this extraordinary colour without the inclusions that characterise natural tsavorite. For designers who need a vivid green that catches the light from every angle.',
+  highlights:['Chrome-vanadium vivid green','Greater brilliance than emerald','Inclusion-free clarity','Exceptional fire and light dispersion'],
+  composition:'Ca₃Al₂Si₃O₁₂ + Cr + V',hardness:'Mohs 7–7.5',growth:'Flux / Hydrothermal',colorGrade:'Vivid Chrome-Green',clarity:'Eye-clean',treatments:'None'
+},
+'royal-blue':{
+  fullDesc:'Deep, saturated royal blue — the colour that defined fine sapphire before Kashmir was discovered. Royal Blue is the pure, intense velvety blue of the finest Ceylon stones, achieved in our laboratory without heat treatment or beryllium diffusion. Every lot is certified by Antwerp to this precise colour grade. Consistent saturation from stone to stone — something natural supply at this grade cannot deliver.',
+  highlights:['Classic Ceylon royal blue hue','Zero heat treatment','Antwerp Certified every stone','Consistent lot-to-lot saturation'],
+  composition:'Al₂O₃ + Fe/Ti',hardness:'Mohs 9',growth:'HPHT / Hydrothermal',colorGrade:'Royal Blue',clarity:'Eye-clean',treatments:'None'
+},
+'yellow-sapphire':{
+  fullDesc:"Pure golden yellow corundum — the Pukhraj, grown with laboratory precision. Yellow sapphires achieve their warm, sunlit colour through iron within the aluminium oxide lattice. Our laboratory-grown stones deliver this golden brilliance without heat treatment or beryllium diffusion — the consistent, vibrant yellow that natural supply cannot guarantee at any price. Certified by Antwerp. Zero treatments, ever.",
+  highlights:['Iron-driven golden yellow colour','Zero heat or beryllium treatment','Antwerp Certified every stone','Vibrant saturation, consistent lots'],
+  composition:'Al₂O₃ + Fe',hardness:'Mohs 9',growth:'HPHT / Hydrothermal',colorGrade:'Vivid Yellow (Pukhraj)',clarity:'Eye-clean',treatments:'None'
+},
+'paraiba-garnet':{
+  fullDesc:'YAG Paraíba Garnet — a laboratory-grown yttrium aluminium garnet engineered to replicate the extraordinary copper-teal of natural Paraíba. With a refractive index exceeding even corundum, YAG delivers exceptional brilliance and fire across the most vivid teal-green spectrum possible. This is the Paraíba colour story without compromise — grown with precision, certified by Antwerp, and entirely free of any treatment.',
+  highlights:['Copper-driven Paraíba-type teal','YAG — higher RI than corundum','Antwerp Certified every stone','Zero treatments ever'],
+  composition:'Y₃Al₅O₁₂ + Cu',hardness:'Mohs 8–8.5',growth:'Czochralski / Flux',colorGrade:'Paraíba Teal-Green',clarity:'Loupe-clean',treatments:'None'
+},
+'alexandrite':{
+  fullDesc:"The colour-change phenomenon made famous by the tsars of Russia — vivid green in daylight, deep red by incandescent light. Alexandrite chrysoberyl achieves this optical miracle through chromium within the beryllium aluminium oxide lattice, a precise balance that shifts the eye's colour perception depending on the light source. Our laboratory-grown Alexandrite replicates this exact chromium chemistry, delivering a strong, clean colour change. Certified by Antwerp. Zero treatments, ever.",
+  highlights:['Strong colour-change: green to red','Chromium-driven optical shift','Antwerp Certified every stone','Zero treatments ever'],
+  composition:'BeAl₂O₄ + Cr',hardness:'Mohs 8.5',growth:'Hydrothermal / Flux',colorGrade:'Green (daylight) / Red (incandescent)',clarity:'Eye-clean',treatments:'None'
+}
+};
 
 // ═══ WIKI IMAGES ═══
 const wikiCache={};
@@ -381,17 +626,12 @@ async function loadStoneImages(){
   const imgs=document.querySelectorAll('.sc-img img[data-wiki]');
   await Promise.allSettled([...imgs].map(async img=>{
     const url=await getWikiImg(img.dataset.wiki);
-    if(url){
-      img.src=url;
-      img.onload=()=>img.classList.add('loaded');
-    }
+    if(url){img.src=url;img.onload=()=>img.classList.add('loaded')}
   }));
 }
 const stonePrefetchCache=new Set();
 const stoneReadyCache=new Map();
-function getActiveStoneSrc(img){
-  return img.getAttribute('src');
-}
+function getActiveStoneSrc(img){return img.getAttribute('src')}
 function ensureStoneSrcReady(src,priority='low'){
   if(!src) return Promise.resolve(src);
   if(stoneReadyCache.has(src)) return stoneReadyCache.get(src);
@@ -399,42 +639,18 @@ function ensureStoneSrcReady(src,priority='low'){
     const prefetchImg=new Image();
     prefetchImg.decoding='async';
     if('fetchPriority' in prefetchImg) prefetchImg.fetchPriority=priority;
-    const done=async()=>{
-      try{if(prefetchImg.decode) await prefetchImg.decode()}catch{}
-      resolve(src);
-    };
-    prefetchImg.onload=done;
-    prefetchImg.onerror=()=>resolve(src);
-    prefetchImg.src=src;
+    const done=async()=>{try{if(prefetchImg.decode) await prefetchImg.decode()}catch{}resolve(src)};
+    prefetchImg.onload=done;prefetchImg.onerror=()=>resolve(src);prefetchImg.src=src;
     if(prefetchImg.complete&&prefetchImg.naturalWidth) done();
   });
-  stoneReadyCache.set(src,ready);
-  return ready;
+  stoneReadyCache.set(src,ready);return ready;
 }
-function prefetchStoneSrc(src,priority='low'){
-  if(!src||stonePrefetchCache.has(src)) return;
-  stonePrefetchCache.add(src);
-  ensureStoneSrcReady(src,priority);
-}
-function markLoadedStoneImages(){
-  document.querySelectorAll('.sc-img-main').forEach(img=>{
-    if(img.complete&&img.naturalWidth) img.classList.add('loaded');
-  });
-}
-function warmStoneImages(){
-  document.querySelectorAll('.sc-img-main').forEach((img,i)=>prefetchStoneSrc(getActiveStoneSrc(img),i<3?'high':'low'));
-}
-function scheduleStoneImageWarmup(){
-  const run=()=>warmStoneImages();
-  if('requestIdleCallback' in window) requestIdleCallback(run,{timeout:1200});
-  else setTimeout(run,250);
-}
-function prefetchShapeVariants(){
-  document.querySelectorAll('[data-shape-src]').forEach(btn=>prefetchStoneSrc(btn.dataset.shapeSrc,'high'));
-}
-function sameStoneSrc(current,next){
-  try{return new URL(current,location.href).href===new URL(next,location.href).href}catch{return current===next}
-}
+function prefetchStoneSrc(src,priority='low'){if(!src||stonePrefetchCache.has(src)) return;stonePrefetchCache.add(src);ensureStoneSrcReady(src,priority)}
+function markLoadedStoneImages(){document.querySelectorAll('.sc-img-main').forEach(img=>{if(img.complete&&img.naturalWidth) img.classList.add('loaded')})}
+function warmStoneImages(){document.querySelectorAll('.sc-img-main').forEach((img,i)=>prefetchStoneSrc(getActiveStoneSrc(img),i<3?'high':'low'))}
+function scheduleStoneImageWarmup(){const run=()=>warmStoneImages();if('requestIdleCallback' in window) requestIdleCallback(run,{timeout:1200});else setTimeout(run,250)}
+function prefetchShapeVariants(){document.querySelectorAll('[data-shape-src]').forEach(btn=>prefetchStoneSrc(btn.dataset.shapeSrc,'high'))}
+function sameStoneSrc(current,next){try{return new URL(current,location.href).href===new URL(next,location.href).href}catch{return current===next}}
 async function switchStoneShape(btn,src,alt){
   const card=btn.closest('.sc');
   const main=card?.querySelector('.sc-img-main');
@@ -442,30 +658,19 @@ async function switchStoneShape(btn,src,alt){
   if(!main||!buffer||!src||sameStoneSrc(main.src,src)) return;
   card.querySelectorAll('.shape-btn').forEach(x=>x.disabled=true);
   await ensureStoneSrcReady(src,'high');
-  buffer.classList.remove('show');
-  buffer.onload=()=>buffer.classList.add('show');
-  buffer.src=src;
+  buffer.classList.remove('show');buffer.onload=()=>buffer.classList.add('show');buffer.src=src;
   if(buffer.complete&&buffer.naturalWidth) buffer.classList.add('show');
   setTimeout(()=>{
-    main.src=src;
-    main.alt=alt;
-    main.classList.add('loaded');
-    requestAnimationFrame(()=>{
-      buffer.classList.remove('show');
-      buffer.removeAttribute('src');
-      card.querySelectorAll('.shape-btn').forEach(x=>{x.classList.toggle('on',x===btn);x.disabled=false});
-    });
+    main.src=src;main.alt=alt;main.classList.add('loaded');
+    requestAnimationFrame(()=>{buffer.classList.remove('show');buffer.removeAttribute('src');card.querySelectorAll('.shape-btn').forEach(x=>{x.classList.toggle('on',x===btn);x.disabled=false})});
   },180);
 }
 
 // ═══ STONE CARDS ═══
 function getStoneInquiryName(s){
-  const name=s.n?.trim()||'';
-  const variety=s.v?.trim()||'';
-  const lowerName=name.toLowerCase();
-  const lowerVariety=variety.toLowerCase();
-  if(!name) return variety;
-  if(!variety) return name;
+  const name=s.n?.trim()||'';const variety=s.v?.trim()||'';
+  const lowerName=name.toLowerCase();const lowerVariety=variety.toLowerCase();
+  if(!name) return variety;if(!variety) return name;
   if(lowerName===lowerVariety||lowerName.includes(lowerVariety)) return name;
   if(lowerVariety.includes(lowerName)) return variety;
   return /sapphire|ruby|emerald/i.test(variety)?`${name} ${variety}`:`${variety} ${name}`;
@@ -478,15 +683,12 @@ const sg=document.getElementById('sg');
 S.forEach((s,i)=>{
   const c=document.createElement('div');
   c.className=`sc rv d${(i%3)+1}`;c.dataset.cat=s.cat;
-  const imgAttrs=s.img
-    ? `src="${s.img}"`
-    : `data-wiki="${s.wiki}"`;
+  const imgAttrs=s.img?`src="${s.img}"`:`data-wiki="${s.wiki}"`;
   const stoneInquiryName=getStoneInquiryName(s);
   const stoneInquiryHref=getStoneInquiryHref(stoneInquiryName);
   c.innerHTML=`<div class="sc-img" style="background:${s.bg}">
-    ${s.video
-      ? `<video class="sc-vid" data-src="${s.video}" poster="${s.img||''}" autoplay muted loop playsinline preload="none" aria-label="${s.n} video"></video>`
-      : `<img class="sc-img-main" ${imgAttrs} alt="${s.n}" loading="${i<3?'eager':'auto'}" decoding="async" fetchpriority="${i<3?'high':'low'}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">`}
+    <img class="sc-img-main" ${imgAttrs} alt="${s.n}" loading="${i<3?'eager':'auto'}" decoding="async" fetchpriority="${i<3?'high':'low'}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+    ${s.video?`<video class="sc-vid" data-src="${s.video}" poster="${s.img||''}" autoplay muted loop playsinline preload="none" aria-label="${s.n} video"></video>`:''}
     <img class="sc-img-buffer" alt="" decoding="async" aria-hidden="true">
   </div>
   <div class="sc-info">
@@ -495,47 +697,43 @@ S.forEach((s,i)=>{
       <div class="sc-r-d">${s.d}</div>
       <div class="sc-r-meta">
         <div class="sc-r-sp">${s.shapes
-          ? s.shapes.map(shape=>`<button class="shape-btn ${shape.id==='rect'?'on':''}" type="button" data-shape-src="${shape.img}" onclick="switchStoneShape(this,'${shape.img}','${s.n} ${shape.label}')">${shape.label}</button>`).join('')
-          : s.sp.map(x=>`<span class="sp">${x}</span>`).join('')}
+          ?s.shapes.map(shape=>`<button class="shape-btn ${shape.id==='rect'?'on':''}" type="button" data-shape-src="${shape.img}" onclick="switchStoneShape(this,'${shape.img}','${s.n} ${shape.label}')">${shape.label}</button>`).join('')
+          :s.sp.map(x=>`<span class="sp">${x}</span>`).join('')}
         </div>
         <a class="iq" href="${stoneInquiryHref}" target="_blank" rel="noopener noreferrer">Inquire <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
     </div>
   </div>`;
   sg.appendChild(c);
+  // Make card clickable → product page (but not if clicking inquiry or shape buttons)
+  c.addEventListener('click',e=>{
+    if(e.target.closest('.iq')||e.target.closest('.shape-btn')) return;
+    window.location.hash='#stone/'+s.slug;
+  });
+  // Stop propagation on inquiry link so card click handler doesn't also fire
+  c.querySelector('.iq').addEventListener('click',e=>e.stopPropagation());
+  c.querySelectorAll('.shape-btn').forEach(btn=>btn.addEventListener('click',e=>e.stopPropagation()));
 });
 
 function initStoneVideos(){
   const videos=[...document.querySelectorAll('.sc-vid[data-src]')];
   const startVideo=video=>{
     if(!video||video.dataset.loaded==='true') return;
-    video.dataset.loaded='true';
-    video.src=video.dataset.src;
-    video.load();
+    video.dataset.loaded='true';video.src=video.dataset.src;video.load();
     const markReady=()=>video.classList.add('ready');
     video.addEventListener('loadeddata',markReady,{once:true});
     video.addEventListener('canplay',markReady,{once:true});
     const playPromise=video.play();
     if(playPromise&&typeof playPromise.catch==='function') playPromise.catch(()=>{});
   };
-  if(!('IntersectionObserver' in window)){
-    videos.forEach(startVideo);
-    return;
-  }
+  if(!('IntersectionObserver' in window)){videos.forEach(startVideo);return}
   const observer=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        startVideo(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
+    entries.forEach(entry=>{if(entry.isIntersecting){startVideo(entry.target);observer.unobserve(entry.target)}});
   },{rootMargin:'280px 0px',threshold:0.01});
   videos.forEach(video=>observer.observe(video));
 }
 
-loadStoneImages();
-prefetchShapeVariants();
-initStoneVideos();
+loadStoneImages();prefetchShapeVariants();initStoneVideos();
 requestAnimationFrame(markLoadedStoneImages);
 addEventListener('load',scheduleStoneImageWarmup,{once:true});
 
@@ -558,12 +756,16 @@ document.getElementById('nl').querySelectorAll('a').forEach(a=>a.onclick=()=>doc
 document.querySelectorAll('.fb').forEach(b=>{b.onclick=()=>{
   document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   const f=b.dataset.f;
+  let visible=0;
   document.querySelectorAll('.sc').forEach((c,i)=>{
     if(f==='all'||c.dataset.cat===f){c.style.display='';c.style.opacity='0';c.style.transform='translateY(16px)';
-      setTimeout(()=>{c.style.transition='all .4s ease';c.style.opacity='1';c.style.transform='none'},30+i*50)}
-    else c.style.display='none'
-  })}
-});
+      setTimeout(()=>{c.style.transition='all .4s ease';c.style.opacity='1';c.style.transform='none'},30+i*50);
+      visible++;}
+    else c.style.display='none';
+  });
+  const empty=document.getElementById('sg-empty');
+  if(empty) empty.style.display=visible===0?'block':'none';
+}});
 
 // ═══ MODAL ═══
 function openM(n){document.getElementById('moS').textContent=n;document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden'}
@@ -595,40 +797,285 @@ if(contactForm&&contactStatus){
     const originalText=btn.textContent;
     const formData=new FormData(contactForm);
     const whatsappHref=buildContactWhatsAppHref(formData);
-    const waWindow=window.open('', '_blank');
-    if(waWindow){
-      try{waWindow.opener=null}catch{}
-      waWindow.document.write('<title>Opening WhatsApp…</title><body style="margin:0;display:grid;place-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#4e4840;background:#faf7f2">Opening WhatsApp…</body>');
-    }
-    btn.disabled=true;
-    btn.textContent='Sending...';
-    contactStatus.className='fstat';
-    contactStatus.textContent='';
+    const waWindow=window.open('','_blank');
+    if(waWindow){try{waWindow.opener=null}catch{}waWindow.document.write('<title>Opening WhatsApp…</title><body style="margin:0;display:grid;place-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#4e4840;background:#faf7f2">Opening WhatsApp…</body>')}
+    btn.disabled=true;btn.textContent='Sending...';contactStatus.className='fstat';contactStatus.textContent='';
     try{
-      const res=await fetch(contactForm.action,{
-        method:'POST',
-        body:formData,
-        headers:{'Accept':'application/json'}
-      });
+      const res=await fetch(contactForm.action,{method:'POST',body:formData,headers:{'Accept':'application/json'}});
       if(!res.ok) throw new Error('Submission failed');
       if(waWindow) waWindow.location.href=whatsappHref;
-      contactForm.reset();
-      contactStatus.className='fstat ok';
-      contactStatus.innerHTML=`Thanks. Your inquiry has been sent — WhatsApp should open now. If it doesn’t, <a href="${whatsappHref}" target="_blank" rel="noopener noreferrer">click here to continue</a>.`;
+      contactForm.reset();contactStatus.className='fstat ok';
+      contactStatus.innerHTML=`Thanks. Your inquiry has been sent — WhatsApp should open now. If it doesn't, <a href="${whatsappHref}" target="_blank" rel="noopener noreferrer">click here to continue</a>.`;
     }catch{
-      if(waWindow) waWindow.close();
-      contactStatus.className='fstat err';
+      if(waWindow) waWindow.close();contactStatus.className='fstat err';
       contactStatus.textContent='Something went wrong while sending your inquiry. Please try again or contact us on WhatsApp.';
-    }finally{
-      btn.disabled=false;
-      btn.textContent=originalText;
-    }
+    }finally{btn.disabled=false;btn.textContent=originalText}
   });
 }
 
 // ═══ SCROLL REVEAL ═══
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.05,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ═══════════════════════════════════════
+// PRODUCT PAGE ROUTING
+// ═══════════════════════════════════════
+
+const ppEl=document.getElementById('pp');
+const ppInner=document.getElementById('pp-inner');
+let _ppCurrentSlug=null;
+
+function openPP(slug){
+  const s=S.find(x=>x.slug===slug);
+  if(!s) return;
+  _ppCurrentSlug=slug;
+  buildPP(slug);
+  ppEl.classList.add('open');
+  ppEl.scrollTop=0;
+  document.body.style.overflow='hidden';
+  document.title=`${s.n} ${s.v} — PureForm`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>ppEl.classList.add('vis')));
+}
+
+function closePP(){
+  ppEl.classList.remove('vis');
+  setTimeout(()=>{
+    ppEl.classList.remove('open');
+    _ppCurrentSlug=null;
+    document.title='PureForm — Not Mined. Mastered.';
+  },380);
+  document.body.style.overflow='';
+}
+
+function handleHash(){
+  const h=location.hash;
+  if(h.startsWith('#stone/')){
+    const slug=h.slice(7);
+    if(S.find(x=>x.slug===slug)){
+      if(_ppCurrentSlug===slug) return; // already open
+      openPP(slug);
+      return;
+    }
+  }
+  if(ppEl.classList.contains('open')) closePP();
+}
+
+window.addEventListener('hashchange',handleHash);
+// Check on load (handles direct URL with #stone/slug)
+handleHash();
+
+// ═══ BUILD PRODUCT PAGE ═══
+function buildPP(slug){
+  const s=S.find(x=>x.slug===slug);
+  if(!s) return;
+  const ext=EXT[slug]||{};
+
+  const waMsg=encodeURIComponent(`Hi! I would like to inquire about the ${s.v} — ${s.n}. Could you please share more details and availability?`);
+  const waHref=`https://wa.me/919079914601?text=${waMsg}`;
+
+  // Related: same category first, then others, max 3, exclude current
+  const related=[...S.filter(x=>x.slug!==slug&&x.cat===s.cat),...S.filter(x=>x.slug!==slug&&x.cat!==s.cat)].slice(0,3);
+
+  // Highlights
+  const hls=(ext.highlights||s.sp||[]);
+  const hlsHtml=hls.map(h=>`<div class="pp-hl"><div class="pp-hl-dot"></div>${h}</div>`).join('');
+
+  // Properties
+  const props=[
+    {l:'Composition',v:ext.composition||s.sp[0]||'—'},
+    {l:'Hardness',v:ext.hardness||s.sp[1]||'—'},
+    {l:'Color Grade',v:ext.colorGrade||'—'},
+    {l:'Clarity',v:ext.clarity||'—'},
+    {l:'Treatments',v:ext.treatments||'None'},
+    {l:'Growth Method',v:ext.growth||'Laboratory Grown'}
+  ];
+  const propsHtml=props.map(p=>`<div class="pp-prop"><div class="pp-prop-l">${p.l}</div><div class="pp-prop-v">${p.v}</div></div>`).join('');
+
+  // Shapes section (emerald only)
+  let shapesHtml='';
+  if(s.shapes){
+    const shps=s.shapes.map((sh,si)=>`<div class="pp-shape-item ${si===1?'on':''}" onclick="ppSelectShape(this,'${sh.img}','${s.n} ${sh.label}')"><div class="pp-shape-frame"><img src="${sh.img}" alt="${sh.label}" loading="lazy" onerror="this.style.display='none'"></div><div class="pp-shape-lbl">${sh.label}</div></div>`).join('');
+    shapesHtml=`<div class="pp-section"><div class="pp-section-label">Available Cuts</div><div class="pp-shapes">${shps}</div></div>`;
+  }
+
+  // Related stones
+  const relHtml=related.map(r=>{
+    const rImg=r.img?`<img class="pp-rel-img-inner" src="${r.img}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='${r.bg}'">`:`<div style="width:100%;height:100%;background:${r.bg}"></div>`;
+    return `<div class="pp-rel-card" onclick="window.location.hash='#stone/${r.slug}'"><div class="pp-rel-img" style="background:${r.bg}">${rImg}</div><div class="pp-rel-info"><div class="pp-rel-v">${r.v}</div><div class="pp-rel-n">${r.n}</div><div class="pp-rel-arrow">View Stone <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>`;
+  }).join('');
+
+  // Hero display — gallery (if s.media) or single image/video
+  let heroRightHtml;
+  if(s.media&&s.media.length){
+    // Store media on window for gallery nav
+    window._ppMedia=s.media;
+    const firstItem=s.media[0];
+    const certStyle=firstItem.label==='Certificate'?'object-fit:contain;transform:rotate(-90deg) scale(0.65);transform-origin:center center':'object-fit:cover;position:absolute;top:0;left:0';
+    const mainContent=firstItem.type==='video'
+      ?`<video autoplay muted loop playsinline src="${firstItem.src}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block"></video>`
+      :`<img src="${firstItem.src}" alt="${firstItem.label}" style="width:100%;height:100%;${certStyle};object-position:center center;display:block" onclick="ppOpenLightbox(0)">`;
+    const thumbsHtml=s.media.map((item,idx)=>{
+      let inner;
+      if(item.type==='video'){
+        inner=`<div class="pp-gthumb-vid-ic"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>`;
+      } else {
+        inner=`<img src="${item.src}" alt="${item.label}">`;
+      }
+      const isFirst=idx===0;
+      return `<div class="pp-gthumb${isFirst?' on':''}" onclick="ppGallerySelect(this,${idx})">${inner}<div class="pp-gthumb-label">${item.label}</div></div>`;
+    }).join('');
+    heroRightHtml=`<div class="pp-gallery"><div class="pp-gallery-main" id="pp-gallery-main">${mainContent}<div class="pp-gallery-zoom-hint">Tap to enlarge</div></div><div class="pp-gallery-thumbs">${thumbsHtml}</div></div>`;
+  } else {
+    const heroMedia=s.video
+      ?`<video autoplay muted loop playsinline src="${s.video}" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block"></video>`
+      :s.img
+        ?`<img src="${s.img}" alt="${s.n}" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block" onerror="this.style.display='none'">`
+        :`<img data-wiki-pp="${s.wiki}" alt="${s.n}" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block" onerror="this.style.display='none'">`;
+    heroRightHtml=`<div class="pp-hero-img-wrap" style="background:${s.bg}">${heroMedia}<div class="pp-hero-cert">Antwerp Certified</div></div>`;
+  }
+
+  ppInner.innerHTML=`
+    <div class="pp-nav">
+      <button class="pp-back" onclick="window.location.hash='#collection'">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Collection
+      </button>
+      <a href="#home" class="pp-nav-logo" onclick="setTimeout(()=>{window.location.hash='';closePP()},10)">PureForm</a>
+      <button class="pp-nav-cta" onclick="window.location.hash='#contact'">Request Quote</button>
+    </div>
+
+    <div class="pp-hero">
+      <div class="pp-hero-bg" style="background:${s.bg}"></div>
+      <div class="pp-hero-over"></div>
+      <div class="pp-hero-in">
+        <div class="pp-hero-text">
+          <div class="pp-hero-badge-top">${s.v} · Lab Grown · Antwerp Certified</div>
+          <h1 class="pp-hero-name">${s.n}</h1>
+          <div class="pp-hero-tag">${s.d}</div>
+          <div class="pp-hero-hls">
+            ${(ext.highlights||[]).slice(0,3).map(h=>`<div class="pp-hero-hl">${h}</div>`).join('')}
+          </div>
+        </div>
+        ${heroRightHtml}
+      </div>
+    </div>
+
+    <div class="pp-body">
+      <div class="pp-main">
+        <div class="pp-section">
+          <div class="pp-section-label">About This Stone</div>
+          <p class="pp-desc">${ext.fullDesc||s.d}</p>
+        </div>
+        <div class="pp-section">
+          <div class="pp-section-label">Key Attributes</div>
+          <div class="pp-hls">${hlsHtml}</div>
+        </div>
+        <div class="pp-section">
+          <div class="pp-section-label">Stone Specifications</div>
+          <div class="pp-props">${propsHtml}</div>
+        </div>
+        ${shapesHtml}
+      </div>
+
+      <div class="pp-sidebar">
+        <div class="pp-card">
+          <div class="pp-card-variety">${s.v}</div>
+          <div class="pp-card-name">${s.n}</div>
+          <div class="pp-card-tag">Antwerp Certified · Laboratory Grown · Zero Treatments · Ships across India in 3–7 days</div>
+          <a class="pp-wa-btn" href="${waHref}" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.34 0-4.508-.678-6.34-1.845l-.452-.283-3.27 1.097 1.097-3.27-.283-.452A9.935 9.935 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+            WhatsApp Inquiry
+          </a>
+          <button class="pp-form-btn" onclick="window.location.hash='#contact'">Send Inquiry Form</button>
+          <div class="pp-trust-list">
+            <div class="pp-trust-item"><div class="pp-trust-check"></div>Antwerp Certified</div>
+            <div class="pp-trust-item"><div class="pp-trust-check"></div>Zero Treatments · No oil, resin, or filling</div>
+            <div class="pp-trust-item"><div class="pp-trust-check"></div>3–7 Day Delivery Across India</div>
+            <div class="pp-trust-item"><div class="pp-trust-check"></div>30–45 Day B2B Credit Available</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pp-related">
+      <div class="pp-rel-ey">Explore More</div>
+      <div class="pp-rel-hd">You may also like</div>
+      <div class="pp-rel-grid">${relHtml}</div>
+    </div>
+
+    <div class="pp-footer">
+      <div>
+        <div class="pp-footer-brand">PureForm</div>
+        <div class="pp-footer-tagline">Not mined. Mastered.</div>
+      </div>
+      <div class="pp-footer-copy">© 2025 PureForm. All rights reserved.</div>
+    </div>
+  `;
+
+  // Load wiki image if no local img
+  if(!s.img){
+    const wikiImg=ppInner.querySelector('img[data-wiki-pp]');
+    if(wikiImg){
+      getWikiImg(wikiImg.dataset.wikiPp||s.wiki).then(url=>{if(url) wikiImg.src=url});
+    }
+  }
+}
+
+// Shape selector inside product page
+function ppSelectShape(wrap,src,alt){
+  document.querySelectorAll('#pp-inner .pp-shape-item').forEach(w=>w.classList.remove('on'));
+  wrap.classList.add('on');
+  const heroImg=document.querySelector('#pp-inner .pp-hero-img-wrap img');
+  if(heroImg&&src){
+    heroImg.style.opacity='0';
+    heroImg.style.transition='opacity .2s ease';
+    setTimeout(()=>{heroImg.src=src;heroImg.alt=alt;heroImg.onload=()=>heroImg.style.opacity='1';if(heroImg.complete) heroImg.style.opacity='1'},200);
+  }
+}
+
+// Gallery thumbnail selector
+function ppGallerySelect(thumb,idx){
+  const media=window._ppMedia||[];
+  const item=media[idx];
+  if(!item) return;
+  document.querySelectorAll('.pp-gthumb').forEach(t=>t.classList.remove('on'));
+  thumb.classList.add('on');
+  const mainEl=document.getElementById('pp-gallery-main');
+  if(!mainEl) return;
+  const bg=mainEl.style.background; // preserve stone gradient bg
+  mainEl.style.opacity='0';
+  mainEl.style.transition='opacity .2s ease';
+  setTimeout(()=>{
+    if(item.type==='video'){
+      mainEl.innerHTML=`<video autoplay muted loop playsinline src="${item.src}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block"></video><div class="pp-gallery-zoom-hint">Tap to enlarge</div>`;
+    } else {
+      const certStyle=item.label==='Certificate'?'object-fit:contain;transform:rotate(-90deg) scale(0.65);transform-origin:center center':'object-fit:cover;position:absolute;top:0;left:0';
+      mainEl.innerHTML=`<img src="${item.src}" alt="${item.label}" style="width:100%;height:100%;${certStyle};object-position:center center;display:block" onclick="ppOpenLightbox(${idx})"><div class="pp-gallery-zoom-hint">Tap to enlarge</div>`;
+    }
+    mainEl.style.background=bg;
+    mainEl.style.opacity='1';
+  },210);
+}
+
+// Lightbox
+function ppOpenLightbox(idx){
+  const media=window._ppMedia||[];
+  const item=media[idx]||media[0];
+  if(!item) return;
+  const lb=document.getElementById('ppLightbox');
+  const lbc=document.getElementById('ppLightboxContent');
+  if(item.type==='video'){
+    lbc.innerHTML=`<video autoplay muted loop playsinline controls src="${item.src}" style="max-width:90vw;max-height:88vh;display:block"></video>`;
+  } else {
+    lbc.innerHTML=`<img src="${item.src}" alt="${item.label}" style="max-width:90vw;max-height:88vh;display:block;object-fit:contain">`;
+  }
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function ppCloseLightbox(){
+  document.getElementById('ppLightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
 </script>
 </body>
 </html>
